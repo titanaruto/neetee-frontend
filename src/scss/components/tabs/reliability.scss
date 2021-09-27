@@ -1,0 +1,28 @@
+.reliability{
+  .about__info-more{
+    margin-bottom: 20px;
+  }
+  &__link-file{
+    color: $color-text-more;
+    font-family: $main_theme_font;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 13px;
+    display: block;
+    &:last-child{
+      margin-bottom: 0;
+    }
+    &:hover{
+      text-decoration-line: underline;
+    }
+  }
+  &__link-icon{
+    width: 8px;
+    height: 13px;
+    margin-right: 9px;
+    fill: $color-text-more;
+  }
+
+}

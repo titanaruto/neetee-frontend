@@ -1,0 +1,24 @@
+@import 'variables';
+@font-face {
+    font-family: 'Roboto';
+    src: url('#{$fa-font-path}/Roboto-Regular.eot');
+    src: url('#{$fa-font-path}/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+        url('#{$fa-font-path}/Roboto-Regular.woff2') format('woff2'),
+        url('#{$fa-font-path}/Roboto-Regular.woff') format('woff'),
+        url('#{$fa-font-path}/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('#{$fa-font-path}/Roboto-Bold.eot');
+    src: url('#{$fa-font-path}/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+        url('#{$fa-font-path}/Roboto-Bold.woff2') format('woff2'),
+        url('#{$fa-font-path}/Roboto-Bold.woff') format('woff'),
+        url('#{$fa-font-path}/Roboto-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}

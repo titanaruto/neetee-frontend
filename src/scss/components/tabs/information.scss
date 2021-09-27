@@ -1,0 +1,272 @@
+.information {
+  background-color: $main_theme_white_color !important;
+
+  &__company-info {
+    margin-bottom: 50px;
+  }
+
+  &__item-img {
+    height: auto;
+    border: 1px dashed $border-img-load;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  &__img-logo {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    flex-direction: column;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__img-wrapper {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  &__img-mobile {
+    width: 100%;
+    flex-direction: column;
+    height: 146px;
+    margin-bottom: 15px;
+  }
+
+  &__img-desktop {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  &__label-logo {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 6px;
+
+  }
+
+  &__label-mobile {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 11px;
+  }
+
+  &__label-desktop {
+    width: 20px;
+    height: 20px;
+    margin-right: 14px;
+  }
+
+  &__description-mobile {
+    width: 144px;
+    font-family: $main_theme_font;
+    font-size: 14px;
+    text-align: center;
+    color: $grey_decription_text;
+  }
+
+  &__description-logo {
+    width: 109px;
+  }
+
+  &__icon-load-desktop {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__textarea {
+    height: 109px;
+  }
+
+  &__work-day-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__work-day-item {
+    display: block;
+    height: 50px;
+    width: 50px;
+    border: 1px solid $light_grey_filter;
+    border-radius: 5px;
+    padding: 16px;
+    font-family: $main_theme_font;
+    font-size: 14px;
+    text-align: center;
+    color: $light_grey_link;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__work-day-checkbox:checked + .information__work-day-item {
+    border: 2px solid $green_buy;
+    border-radius: 6px;
+    font-weight: 600;
+    color: $main_theme_black_color;
+    padding: 15px 13px;
+
+    &::before {
+      content: '\f058';
+      font-family: "Font Awesome 5 Pro";
+      font-size: 20px;
+      color: $green_buy;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      z-index: 100;
+      background-color: $main_theme_white_color;
+      border-radius: 50%;
+    }
+  }
+
+  &__file {
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    &-percent{
+      display: flex;
+      align-items: center;
+      .add-advert__item-percent{
+        margin-right: 16px;
+      }
+      .add-advert__icon-load-animation{
+        margin-bottom: 0;
+      }
+    }
+    &-icon-delete{
+      height: 20px;
+      width: 15px;
+      margin-right: 20px;
+      fill: $red_arrow;
+      cursor: pointer;
+    }
+    &-item{
+      font-family: $main_theme_font;
+      font-size: 14px;
+      text-decoration-line: underline;
+      color: $color-text-more;
+      display: flex;
+      align-items: center;
+    }
+    &-label {
+      background: $light_grey_link;
+      border-radius: 4px;
+      font-family: $main_theme_font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      padding: 7px 14px 8px 14px;
+      color: $main_theme_white_color;
+      cursor: pointer;
+      border: 1px solid $light_grey_filter;
+      margin-right: 33px;
+    }
+  }
+
+  .reliability {
+    &__title {
+      font-family: $main_theme_font;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      color: $form_color_black;
+      background-color: $grey_bcg_img;
+      padding: 15px 20px;
+      margin: 0 -20px 20px -20px;
+    }
+    &__description{
+      font-family: $main_theme_font;
+      font-size: 14px;
+      line-height: 16px;
+      color: $grey_decription_text;
+      margin-bottom: 30px;
+    }
+
+    &__file {
+      &-wrapper {
+        margin-bottom: 40px;
+      }
+    }
+  }
+
+
+}
+
+@media (min-width: $desktop-width) {
+  .information {
+    box-shadow: none !important;
+    &__company-info-wrapper{
+      display: flex;
+      margin-bottom: 30px;
+      .research__prices{
+        margin-right: 50px;
+        align-items: unset;
+      }
+    }
+
+    &__wrapper-graphics{
+      display: flex;
+      justify-content: space-between;
+      width: 509px;
+      align-items: center;
+      .prices__wrap{
+        margin-right: 20px;
+
+      }
+      .add-advert{
+        &__submit-wrapper{
+          display: flex;
+        }
+        &__submit{
+          margin: 0;
+        }
+      }
+    }
+
+    &__img {
+      &-wrapper {
+        width: auto;
+        display: flex;
+      }
+      &-mobile{
+        width: 278px;
+        margin-right: 32px;
+      }
+      &-desktop{
+        height: 167px;
+        flex-direction: column;
+      }
+      &-logo{
+        left: 0;
+        transform: none;
+      }
+    }
+    &__label-desktop{
+      width: 42px;
+      height: 42px;
+      margin-bottom: 20px;
+      margin-right: 0;
+    }
+    &__icon-load-desktop{
+      width: 42px;
+      height: 42px;
+    }
+
+    .reliability {
+      &__title {
+        margin: 0 0 30px 0;
+      }
+    }
+  }
+}

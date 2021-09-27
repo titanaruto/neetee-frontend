@@ -1,0 +1,21 @@
+@import 'helpers/variables';
+@import 'base/reset';
+@import 'base/common';
+@import 'components/pagination';
+
+//fonts
+@import 'fonts/all';
+
+
+
+//components
+@import 'components/header';
+@import 'components/sliders';
+@import 'components/form-header';
+@import 'components/form-register-return';
+@import 'components/seller';
+@import 'components/advert';
+@import 'components/add-advert';
+@import 'components/home';
+@import 'components/profile-page';
+@import 'components/footer';

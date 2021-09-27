@@ -1,0 +1,136 @@
+.profile-page{
+  &__container{
+    padding-top: 30px;
+    padding-right: 0;
+    margin-bottom: 25px;
+  }
+  &__tabs {
+    padding: 0 20px;
+  }
+
+  &__banner {
+    width: 100%;
+    height: 167px;
+    margin-top: 24px;
+  }
+
+  &__right-side {
+    width: 270px;
+    margin: 0 auto;
+  }
+
+  &__nav {
+    padding: 0;
+    height: 28px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__tabs {
+    padding: 0 20px;
+  }
+  &__menu {
+    width: 870px;
+    display: flex;
+    overflow-x: auto;
+    min-height: 28px;
+    border-radius: 5px;
+
+    &::-webkit-scrollbar {
+      width: 0; /* ширина для вертикального скролла */
+      height: 0; /* высота для горизонтального скролла */
+    }
+
+  }
+
+  &__item {
+    width: max-content;
+    margin-right: 38px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 9px;
+    cursor: pointer;
+    min-width: max-content;
+
+    &--active {
+      border-bottom:  2px solid $main_theme_blue_color;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__link {
+    color: $grey_decription_text;
+    font-size: 16px;
+
+    &--active {
+      color: $main_theme_black_color;
+      font-weight: 600;
+    }
+  }
+  &__params{
+    &-label{
+      font-family: $main_theme_font;
+      font-weight: 600;
+      font-size: 14px;
+      color: $form_color_black;
+      margin-bottom: 12px;
+      display: block;
+      width: 100%;
+
+      &-address{
+        font-family: $main_theme_font;
+        font-weight: 500;
+        font-size: 14px;
+        width: 100%;
+        color: $green_buy;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        &:hover{
+          color: $main_theme_blue_color;
+          cursor: pointer;
+        }
+      }
+    }
+    &-icons{
+      font-size: 20px;
+      margin-left: 10px;
+    }
+    &-input{
+      padding: 17px 20px;
+      font-family: $main_theme_font;
+      font-size: 14px;
+      line-height: 16px;
+      width: 100%;
+      color: $form_color_black;
+      border: 1px solid $light_grey_filter;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      &::-webkit-input-placeholder{
+        color: $light_grey_link;
+      }
+    }
+  }
+
+}
+
+@media (min-width: $desktop-width) {
+  .profile-page{
+    &__container{
+      padding-top: 40px;
+      margin-bottom: 40px;
+    }
+    &__tabs{
+      padding: 0;
+    }
+  }
+}
+
+@import 'tabs/account';
+@import 'tabs/information';
+@import 'tabs/security';

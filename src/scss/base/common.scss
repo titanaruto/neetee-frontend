@@ -1,0 +1,56 @@
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  min-height: 100vh;
+  font-family: sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+  Ubuntu, Cantarell, 'Helvetica Neue';
+  background-color: #fff;
+  text-decoration: none;
+  -webkit-overflow-scrolling: touch;
+  font-style: normal;
+}
+
+textarea {
+  resize: none;
+}
+.container{
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: $desktop-width;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+.overlay{
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+  cursor: pointer; /* Add a pointer on hover */
+  z-index: 90;
+  &--show{
+    display: block;
+  }
+}
+@media (min-width: $desktop-width) {
+  .container{
+    padding: 0;
+  }
+}

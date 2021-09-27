@@ -1,0 +1,116 @@
+.account {
+  margin-bottom: 60px;
+  &__radio-list {
+    display: flex;
+    justify-content: space-between;
+    max-width: 332px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+
+  &__radio {
+    &-item {
+      width: 49%;
+    }
+
+    &-icon {
+      margin-right: 10px;
+      font-size: 19px;
+      color: $light_grey_link;
+    }
+
+    &-input:checked + .account__radio-label {
+      color: $color-text-more;
+    }
+
+    &-input:checked + .account__radio-label .account__radio-icon {
+      color: $color-text-more;
+
+      &:before {
+        content: '\f192';
+      }
+    }
+
+    &-label {
+      display: flex;
+      font-family: $main_theme_font;
+      font-weight: normal;
+      font-size: 14px;
+      color: $grey_decription_text;
+    }
+  }
+
+  &__individual {
+    display: none;
+  }
+  &__entity{
+    display: none;
+  }
+  &__params-show {
+    display: block;
+  }
+  .params-created {
+
+    &__left-side {
+      margin-bottom: 20px;
+    }
+
+
+
+    &__select-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+
+      &:after {
+        content: '\f078';
+        font-family: 'Font Awesome 5 Pro';
+        color: $light_grey_link;
+        right: 20px;
+        top: 18px;
+        position: absolute;
+        pointer-events: none;
+
+      }
+    }
+
+    &__select {
+      width: 100%;
+    }
+  }
+
+}
+
+@media (min-width: $desktop-width) {
+  .account {
+    &__radio-list {
+      margin-bottom: 32px;
+    }
+    &__form{
+      display: flex;
+      justify-content: space-between;
+    }
+
+
+    .params-created {
+      &__left-side {
+        margin-bottom: 0;
+        width: 50%;
+        padding-right: 152px;
+        border-right: 1px solid $form_color_line;
+      }
+      &__right-side{
+        width: 50%;
+        padding-left: 152px;
+      }
+      &__wrapper-place{
+        display: flex;
+        justify-content: space-between;
+        &-item{
+          width: 48%;
+        }
+      }
+    }
+
+  }
+}

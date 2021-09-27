@@ -1,0 +1,48 @@
+.security {
+  &__password-show-pass {
+    color: $light_grey_link;
+    right: 20px;
+    top: 18px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  &__password-icon {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    &:hover:after {
+      color: $color-text-more;
+    }
+  }
+
+  &__title {
+    font-family: $main_theme_font;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: $light_grey_link;
+    margin-bottom: 20px;
+  }
+
+  &__password-wrapper {
+    margin-bottom: 30px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .security {
+    &__title {
+      margin-bottom: 30px;
+    }
+
+    &__password-wrapper {
+      margin-bottom: 25px;
+    }
+  }
+}

@@ -1,0 +1,616 @@
+"use strict";
+let urlParams = "http://";
+let account__radio_list = document.querySelector(".account__radio-list");
+let add_address_additional = document.querySelector(".profile-page__params-label-address");
+let copy_btn = document.getElementById("btn-copy");
+let file_profile = document.getElementById("file-profile");
+let add_advert_list = document.querySelector(".add-advert__list");
+let copy_input = document.getElementById("refer");
+let document_input = document.getElementById("document_input");
+let high_price = document.getElementById("high-price");
+let prices__wrap = document.querySelector(".prices__wrap");
+let overlay = document.querySelector(".overlay");
+let overlay_show;
+let view_product = document.querySelector(".sorting__list-view");
+let dogovor_check = document.querySelector("#dogovor_check");
+
+let sorting_form = document.querySelector("#sorting-form");
+let sorting_wrapper = document.querySelector(".products__sorting-wrapper");
+let products__all_wrapper = document.querySelector(".products__all-wrapper");
+let form_header = document.querySelector(".form-header");
+let login = document.querySelector(".main-header__btn--login");
+let login_form = document.querySelector(".form-header__btn-login");
+let registration = document.querySelector(".main-header__btn--registration");
+let registration_form = document.querySelector(".form-header__btn-registration");
+let close_form = document.querySelector(".form-header__icon--close");
+let captcha_test = document.querySelector("#form-header__captcha");
+let ajaxHedCatWrapper = document.querySelector('.ajax-header-categories__wrapper');
+let advertLoadImg = document.querySelector('#load-img-1');
+let listLoadImg = document.querySelector('.add-advert__list-img');
+let addVideoLink = document.querySelector('.add-advert__links');
+let urlCategory = '/advert/category/';
+let urlLoadImg = '/advert/load-image';
+let urlLoadRemoveImg = '/advert/load-remove-image';
+let loadPercent;
+let videoCount = 1;
+let imgLoadCount = 0;
+let getTemplateDivVideoLink = function getTemplateDivVideoLink() {
+    videoCount++;
+    let divLoad = document.createElement('DIV');
+    divLoad.classList.add('seller__ref-wrapper');
+    divLoad.classList.add('add-advert__ref-wrapper');
+    let input = document.createElement('INPUT');
+    input.classList.add('seller__ref', 'add-advert__input-link');
+    input.type = 'text';
+    input.name = 'link_video_' + videoCount;
+    input.placeholder = 'Введите ссылку';
+    let i = document.createElement('I');
+    i.classList.add(
+        'add-advert__btn',
+        'add-advert__icon-block',
+        'add-advert__icon-block--green',
+        'add-advert__icon-delete--green',
+        'fas',
+        'fa-plus',
+    );
+    divLoad.appendChild(input);
+    divLoad.appendChild(i);
+    addVideoLink.append(divLoad);
+
+}
+let removeInput = function removeInput(e) {
+    let item = e.target;
+    item.parentElement.remove();
+}
+let addInputLinkVideo = function addInputLinkVideo(e) {
+    let item = e.target;
+    if (item.classList.contains('add-advert__btn') && item.nodeName == "I") {
+        let div = item.parentElement;
+        let input = item.parentElement.querySelector('.add-advert__input-link');
+        if (input.value != '') {
+            item.remove();
+            input.classList.remove('add-advert__icon-block--red');
+            input.classList.add('add-advert__icon-block--green');
+            let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+                useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            svgElem.classList.add('add-advert__btn');
+            svgElem.classList.add('add-advert__icon-block');
+            svgElem.classList.add('add-advert__icon-block--delete');
+            svgElem.classList.add('add-advert__icon-block--red');
+            svgElem.classList.add('add-advert__icon-delete--red');
+            useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
+            svgElem.addEventListener('click', removeInput);
+            svgElem.appendChild(useElem);
+            div.append(svgElem);
+            let addElement = getTemplateDivVideoLink();
+
+        } else {
+            input.classList.remove('add-advert__icon-block--green');
+            input.classList.add('add-advert__icon-block--red');
+        }
+    }
+}
+
+if (addVideoLink != null) {
+    addVideoLink.addEventListener('click', addInputLinkVideo)
+}
+let removeDivImg = function removeDivImg(data, item) {
+    item.parentElement.remove();
+}
+let removeLoadImg = function removeLoadImg(e) {
+    let item = e.target;
+    if (item.classList.contains('add-advert__icon-delete')) {
+        let name = item.dataset.name;
+        updateForm(urlLoadRemoveImg, {'name': name}, removeDivImg, item)
+    }
+}
+
+let handlerLoadImg = function hanlderLoadImg(e) {
+    let divLoad = document.createElement('DIV');
+    divLoad.classList.add('add-advert__item-img');
+    divLoad.classList.add('add-advert__item-load');
+
+    let divLoadWrapperImg = document.createElement('DIV');
+    divLoadWrapperImg.classList.add('add-advert__item-wrapper-load');
+
+    let loadGif = document.createElement('IMG');
+    loadGif.classList.add('add-advert__icon-load-animation');
+    loadGif.src = '/assets/img/gif/load.gif';
+    loadGif.alt = 'gif-load';
+
+    loadPercent = document.createElement('P');
+    loadPercent.classList.add('add-advert__item-percent');
+    loadPercent.innerHTML = "0%";
+
+    divLoadWrapperImg.appendChild(loadGif);
+    divLoadWrapperImg.appendChild(loadPercent);
+    divLoad.appendChild(divLoadWrapperImg);
+    listLoadImg.append(divLoad);
+    uploadFile(e.target)
+}
+
+function uploadFile(file) {
+    let formData = new FormData();
+    formData.append("file", file.files[0]);
+    let ajax = new XMLHttpRequest();
+    let token = document.querySelector('meta[name="csrf-token"]')['content'];
+    ajax.upload.addEventListener("progress", progressHandler);
+    ajax.addEventListener("load", completeHandler);
+    ajax.open("POST", urlLoadImg);
+    ajax.setRequestHeader('X-CSRF-TOKEN', token);
+    ajax.send(formData);
+
+}
+
+function completeHandler(event) {
+    let test = JSON.parse(event.target.response);
+    loadPercent.value = 100;
+
+    let divImg = document.createElement('DIV');
+    divImg.classList.add('add-advert__item-img');
+    divImg.classList.add('add-advert__item-not-line');
+    imgLoadCount++;
+    let loadImg = document.createElement('IMG');
+    loadImg.alt = 'load-img';
+    loadImg.src = test.pathFile;
+
+    let inputImg = document.createElement('INPUT');
+    inputImg.hidden = true;
+    inputImg.name = 'img_load_' + imgLoadCount;
+    inputImg.type = "text";
+    inputImg.value = test.pathFile;
+
+    let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+        useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    svgElem.classList.add('add-advert__icon-delete');
+    useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
+    svgElem.addEventListener('click', removeLoadImg);
+    svgElem.dataset.name = test.pathFile;
+
+    svgElem.appendChild(useElem);
+    divImg.appendChild(inputImg);
+    divImg.appendChild(loadImg);
+    divImg.appendChild(svgElem);
+    listLoadImg.removeChild(document.querySelector('.add-advert__item-load'));
+    listLoadImg.append(divImg);
+
+}
+
+
+function progressHandler(event) {
+    let percent = 100 * (event.loaded / event.total);
+    loadPercent.innerHTML = Math.round(percent) + "%";
+}
+
+
+if (advertLoadImg != null) {
+    advertLoadImg.addEventListener('input', handlerLoadImg)
+}
+let showCategory = function showCategory(data) {
+    ajaxHedCatWrapper.innerHTML = data.view;
+}
+
+let handlerClickSubCategories = function handlerClickSubCategories(e) {
+    let item = e.target;
+    if (item.nodeName == "A" && (item.classList.contains('sub-categories__back') || item.classList.contains('sub-categories__link'))) {
+        let id = item.dataset.id;
+        if (parseInt(id) || id == 0) {
+            let url = urlCategory + id;
+            updateForm(url, {}, showCategory);
+        }
+    }
+}
+
+if (ajaxHedCatWrapper != null) {
+    ajaxHedCatWrapper.addEventListener('click', handlerClickSubCategories)
+}
+
+const handlerClickMoney = function handlerClickMoney(e) {
+    let item = e.target;
+
+    if ((item.nodeName === "I" && item.classList.contains("prices__icon") && item.parentElement.classList.contains("prices__submit")) ||
+        (item.nodeName === "BUTTON" && item.classList.contains("prices__submit"))) {
+        if (item.nodeName === "BUTTON" && item.classList.contains("prices__submit")) {
+            item.classList.add("prices__submit--disable");
+            let parent_range = item.parentElement;
+            let price_list = parent_range.querySelector(".prices__list");
+            price_list.classList.add("prices__list--show");
+            overlay.classList.add("overlay--show");
+            overlay_show = document.querySelector(".overlay--show");
+            if (overlay_show != null) {
+                overlay_show.addEventListener("click", handlerClickOverlayClose);
+            }
+        } else if (item.nodeName === "I" && item.classList.contains("prices__icon")) {
+            item.parentElement.classList.add("prices__submit--disable");
+            let parent_range = item.parentElement.parentElement;
+            let price_list = parent_range.querySelector(".prices__list");
+            price_list.classList.add("prices__list--show");
+            overlay.classList.add("overlay--show");
+            overlay_show = document.querySelector(".overlay--show");
+            if (overlay_show != null) {
+                overlay_show.addEventListener("click", handlerClickOverlayClose);
+            }
+        }
+
+    } else if ((item.nodeName === "I" && item.classList.contains("prices__icon") && item.parentElement.classList.contains("prices__item")) ||
+        (item.nodeName === "LI" && item.classList.contains("prices__item"))) {
+        if ((item.nodeName === "I" && item.classList.contains("prices__icon") && item.parentElement.classList.contains("prices__item"))) {
+            let price_list = item.parentElement.parentElement;
+            let parent_range = price_list.parentElement;
+            let prices__submit = parent_range.querySelector(".prices__submit");
+            prices__submit.classList.remove("prices__submit--disable");
+            price_list.classList.remove("prices__list--show");
+            let list_submit_icon = prices__wrap.querySelectorAll(".prices__submit .prices__icon");
+            for (let i = 0; i < list_submit_icon.length; i++) {
+                if (list_submit_icon[i].classList.contains("fa-ruble-sign")) {
+                    list_submit_icon[i].classList.remove("fa-ruble-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-dollar-sign")) {
+                    list_submit_icon[i].classList.remove("fa-dollar-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-euro-sign")) {
+                    list_submit_icon[i].classList.remove("fa-euro-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-yen-sign")) {
+                    list_submit_icon[i].classList.remove("fa-yen-sign");
+                }
+
+                if (item.classList.contains("fa-ruble-sign")) {
+                    list_submit_icon[i].classList.add("fa-ruble-sign");
+                } else if (item.classList.contains("fa-dollar-sign")) {
+                    list_submit_icon[i].classList.add("fa-dollar-sign");
+                } else if (item.classList.contains("fa-euro-sign")) {
+                    list_submit_icon[i].classList.add("fa-euro-sign");
+                } else if (item.classList.contains("fa-yen-sign")) {
+                    list_submit_icon[i].classList.add("fa-yen-sign");
+                }
+            }
+            overlay_show.classList.remove("overlay--show");
+        } else if (item.nodeName === "LI" && item.classList.contains("prices__item")) {
+            let list_submit_icon = prices__wrap.querySelectorAll(".prices__submit .prices__icon");
+            for (let i = 0; i < list_submit_icon.length; i++) {
+                if (list_submit_icon[i].classList.contains("fa-ruble-sign")) {
+                    list_submit_icon[i].classList.remove("fa-ruble-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-dollar-sign")) {
+                    list_submit_icon[i].classList.remove("fa-dollar-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-euro-sign")) {
+                    list_submit_icon[i].classList.remove("fa-euro-sign");
+                } else if (list_submit_icon[i].classList.contains("fa-yen-sign")) {
+                    list_submit_icon[i].classList.remove("fa-yen-sign");
+                }
+
+                if (item.firstElementChild.classList.contains("fa-ruble-sign")) {
+                    list_submit_icon[i].classList.add("fa-ruble-sign");
+                } else if (item.firstElementChild.classList.contains("fa-dollar-sign")) {
+                    list_submit_icon[i].classList.add("fa-dollar-sign");
+                } else if (item.firstElementChild.classList.contains("fa-euro-sign")) {
+                    list_submit_icon[i].classList.add("fa-euro-sign");
+                } else if (item.firstElementChild.classList.contains("fa-yen-sign")) {
+                    list_submit_icon[i].classList.add("fa-yen-sign");
+                }
+            }
+            let price_list = item.parentElement;
+            let parent_range = price_list.parentElement;
+            let prices__submit = parent_range.querySelector(".prices__submit");
+            prices__submit.classList.remove("prices__submit--disable");
+            price_list.classList.remove("prices__list--show");
+            overlay_show.classList.remove("overlay--show");
+        }
+    }
+};
+if (prices__wrap != null) {
+    prices__wrap.addEventListener("click", handlerClickMoney);
+}
+let handlerClickSortingForm = function handlerClickSortingForm(e) {
+    sorting_wrapper.classList.toggle("products__sorting-wrapper--active");
+    overlay.classList.toggle("overlay--show");
+    overlay_show = document.querySelector(".overlay--show");
+    overlay_show.addEventListener("click", handlerClickOverlayClose);
+};
+if (sorting_form != null) {
+    sorting_form.addEventListener("click", handlerClickSortingForm);
+}
+let handlerClickSortingWrapper = function handlerClickSortingWrapper(e) {
+    let item = e.target;
+    if (item.nodeName === "INPUT" || item.nodeName === "svg" || item.nodeName === "use") {
+        sorting_wrapper.classList.remove("products__sorting-wrapper--active");
+        overlay.classList.remove("overlay--show");
+    }
+};
+if (sorting_wrapper != null) {
+    sorting_wrapper.addEventListener("click", handlerClickSortingWrapper);
+}
+
+let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
+    let item = e.target;
+    if (item.nodeName === "I" && item.classList.contains("product-item__icon")) {
+        let parentItem = item.parentElement.parentElement.parentElement;
+        let id = parentItem.dataset.id;
+        parentItem.querySelector(".product-item__title").classList.add("product-item__title--show");
+        parentItem.querySelector(".product-item__wrapper").classList.add("product-item__wrapper--disabled");
+        parentItem.querySelector(".product-item__description-mb").classList.add("product-item__description-mb--disabled");
+        parentItem.querySelector(".product-item__information-line-wrapper").classList.add("product-item__information-line-wrapper--disabled");
+
+        parentItem.querySelector(".product-item__info").classList.remove("product-item__info--show");
+        parentItem.querySelector(".product-item__star").classList.remove("product-item__star--show");
+        parentItem.querySelector(".product-item__author").classList.remove("product-item__author--show");
+        parentItem.querySelector(".product-item__basket").classList.remove("product-item__basket--show");
+
+
+        parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
+        parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
+        parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
+        parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
+
+        if (item.classList.contains("product-item__icon--briefcase")) {
+            parentItem.querySelector(".product-item__info").classList.add("product-item__info--show");
+            item.classList.add("product-item__icon--briefcase-active");
+        } else if (item.classList.contains("product-item__icon--star")) {
+            parentItem.querySelector(".product-item__star").classList.add("product-item__star--show");
+            item.classList.add("product-item__icon--star-active");
+        } else if (item.classList.contains("product-item__icon--profile")) {
+            parentItem.querySelector(".product-item__author").classList.add("product-item__author--show");
+            item.classList.add("product-item__icon--profile-active");
+        } else if (item.classList.contains("product-item__icon--buy")) {
+            parentItem.querySelector(".product-item__basket").classList.add("product-item__basket--show");
+            item.classList.add("product-item__icon--buy-active");
+        }
+
+    }
+};
+if (products__all_wrapper != null) {
+    products__all_wrapper.addEventListener("click", handlerTabsClickProducts);
+}
+let handlerFormHeaderClickLogin = function handlerFormHeaderClickLogin(e) {
+    e.preventDefault();
+    let item = e.target;
+    form_header.classList.add("form-header--show");
+    form_header.action = urlParams + extractHostname(window.location.href) + '/login';
+    let width_document = document.documentElement.clientWidth;
+    let minus_width;
+    if (width_document < 1170) {
+        minus_width = 30;
+        let width_form = form_header.clientWidth - minus_width;
+        let scale = (width_form / 304).toFixed(2);
+        captcha_test.style.transform = "scale(" + scale + ")";
+        captcha_test.style.transformOrigin = "left top";
+    }
+    overlay.classList.add("overlay--show");
+    overlay_show = document.querySelector(".overlay--show");
+    if (overlay_show != null) {
+        overlay_show.addEventListener("click", handlerClickOverlayClose);
+    }
+
+    registration_form.classList.remove("form-header__btn--active");
+
+
+    document.getElementById("name").disabled = true;
+    document.getElementById("password_confirmation").disabled = true;
+    document.getElementById("nameRefer").disabled = true;
+    document.getElementById("email").classList.remove("form-header__inputs--show");
+    document.getElementById("password_confirmation").classList.remove("form-header__inputs--show");
+    document.getElementById("nameRefer").classList.remove("form-header__inputs--show");
+    document.querySelector(".form-header__submit-registration").classList.remove("form-header__submit--active");
+
+
+    login_form.classList.add("form-header__btn--active");
+    document.getElementById("email").disabled = false;
+    document.getElementById("password").disabled = false;
+    document.getElementById("email").classList.add("form-header__inputs--show");
+    document.getElementById("password").classList.add("form-header__inputs--show");
+    document.querySelector(".form-header__btn-wrapper-info").classList.add("form-header__btn-wrapper-info--show");
+    document.querySelector(".form-header__socials").classList.add("form-header__socials--show");
+    document.querySelector(".form-header__submit-login").classList.add("form-header__submit--active");
+};
+let handlerFormHeaderClickRegistration = function handlerFormHeaderClickRegistration(e) {
+    e.preventDefault();
+    let item = e.target;
+    form_header.classList.add("form-header--show");
+    form_header.action = urlParams + extractHostname(window.location.href) + '/register';
+    let width_document = document.documentElement.clientWidth;
+
+    let minus_width;
+    if (width_document < 1170) {
+        minus_width = 30;
+        let width_form = form_header.clientWidth - minus_width;
+        let scale = (width_form / 304).toFixed(2);
+        captcha_test.style.transform = "scale(" + scale + ")";
+        captcha_test.style.transformOrigin = "left top";
+    }
+    overlay.classList.add("overlay--show");
+    overlay_show = document.querySelector(".overlay--show");
+    if (overlay_show != null) {
+        overlay_show.addEventListener("click", handlerClickOverlayClose);
+    }
+    login_form.classList.remove("form-header__btn--active");
+    document.querySelector(".form-header__btn-wrapper-info").classList.remove("form-header__btn-wrapper-info--show");
+    document.querySelector(".form-header__socials").classList.remove("form-header__socials--show");
+    document.querySelector(".form-header__submit-login").classList.remove("form-header__submit--active");
+
+    registration_form.classList.add("form-header__btn--active");
+    document.getElementById("name").classList.add("form-header__inputs--show");
+    document.getElementById("email").classList.add("form-header__inputs--show");
+    document.getElementById("password").classList.add("form-header__inputs--show");
+    document.getElementById("password_confirmation").classList.add("form-header__inputs--show");
+    document.getElementById("nameRefer").classList.add("form-header__inputs--show");
+    document.querySelector(".form-header__submit-registration").classList.add("form-header__submit--active");
+};
+if (login != null) {
+    login.addEventListener("click", handlerFormHeaderClickLogin);
+    login_form.addEventListener("click", handlerFormHeaderClickLogin);
+    registration.addEventListener("click", handlerFormHeaderClickRegistration);
+    registration_form.addEventListener("click", handlerFormHeaderClickRegistration);
+}
+
+
+let handlerFormHeaderClickClose = function handlerFormHeaderClickClose(e) {
+    form_header.classList.remove("form-header--show");
+    overlay_show.classList.remove("overlay--show");
+};
+if (close_form != null) {
+    close_form.addEventListener("click", handlerFormHeaderClickClose);
+}
+let handlerClickOverlayClose = function handlerClickOverlayClose(e) {
+    overlay_show.classList.remove("overlay--show");
+    sorting_wrapper.classList.remove("products__sorting-wrapper--active");
+    form_header.classList.remove("form-header--show");
+    let prices__submit = document.querySelector(".prices__submit--disable");
+    let price_list = document.querySelector(".prices__list--show");
+    if (price_list != null) {
+        price_list.classList.remove("prices__list--show");
+    }
+    if (prices__submit != null) {
+        prices__submit.classList.remove("prices__submit--disable");
+    }
+};
+
+let handlerChangeVievOnLine = function handlerChangeVievOnLine(e) {
+    // console.dir(e.target);
+    let item = e.target;
+    if (item.checked && item.id == "line") {
+        products__all_wrapper.classList.add("products__all-wrapper--line");
+    }
+    if (item.checked && item.id == "squera") {
+        products__all_wrapper.classList.remove("products__all-wrapper--line");
+    }
+};
+if (view_product != null) {
+    view_product.addEventListener("input", handlerChangeVievOnLine);
+}
+
+let handlerClickCopy = function handlerClickCopy() {
+    copy_input.select();
+    document.execCommand("copy");
+};
+if (copy_btn != null) {
+    copy_btn.addEventListener('click', handlerClickCopy);
+}
+
+let handlerCheck = function handlerCheck(e) {
+    if (e.target.checked === true) {
+        document_input.disabled = false;
+        high_price.disabled = false;
+    } else {
+        document_input.disabled = true;
+        high_price.disabled = true;
+    }
+};
+if (dogovor_check != null) {
+    dogovor_check.addEventListener('change', handlerCheck);
+}
+let handlerCheckDescription = function handlerCheckDescription(e) {
+    let item = e.target;
+    if (item.classList.contains('add-advert__icon')) {
+        item.classList.toggle("fa-minus");
+        item.classList.toggle("fa-plus");
+    }
+};
+if (add_advert_list != null) {
+    add_advert_list.addEventListener('click', handlerCheckDescription);
+}
+let handlerRadioChange = function handlerRadioChange(e) {
+    let item = e.target;
+    if (item.nodeName === "INPUT" && item.classList.contains('account__radio-input')) {
+        let id = item.id;
+        document.querySelector('.account__params-show').classList.remove("account__params-show");
+        document.querySelector('.account__' + id).classList.add("account__params-show");
+    }
+};
+if (account__radio_list != null) {
+    account__radio_list.addEventListener('input', handlerRadioChange);
+}
+let countAddress = 1;
+let handlerClickAddAddress = function handlerClickAddAddress(e) {
+    let item = e.target;
+    if ((item.nodeName === "LABEL" || item.nodeName === "I") || item.classList.contains('profile-page__params-icons')) {
+        let list_address = document.querySelector('.params-created__list-address');
+        let label = document.createElement('label');
+        label.classList.add('profile-page__params-label');
+        label.for = 'address' + countAddress;
+        label.innerText = 'Дополнительный адресс № ' + countAddress;
+        let input = document.createElement('input');
+        input.classList.add('profile-page__params-input');
+        input.id = 'address' + countAddress;
+        input.type = 'text';
+        input.required = true;
+        input.placeholder = 'Укажите ваш дополнительный адрес нахождения';
+        input.name = 'address' + countAddress;
+        list_address.append(label, input);
+        countAddress++;
+    }
+};
+if (add_address_additional != null) {
+    add_address_additional.addEventListener('click', handlerClickAddAddress);
+}
+
+function show_hide_password(target) {
+    let input = target.parentElement.querySelector('.profile-page__params-input');
+    let fas = target.querySelector('.fas');
+    if (input.getAttribute('type') == 'password') {
+        fas.classList.remove('fa-eye-slash');
+        fas.classList.add('fa-eye');
+        input.setAttribute('type', 'text');
+    } else {
+        fas.classList.add('fa-eye-slash');
+        fas.classList.remove('fa-eye');
+        input.setAttribute('type', 'password');
+    }
+    return false;
+}
+
+let handlerFileLoad = function handlerFileLoad(e) {
+
+};
+if (file_profile != null) {
+    file_profile.addEventListener('input', handlerFileLoad);
+}
+
+let updateForm = function updateForm(URL, params, returnElement = null, addParams = null, errorCallback = null) {
+    let token = document.querySelector('meta[name="csrf-token"]')['content'];
+    fetch(URL, {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text-plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRF-TOKEN": token,
+        },
+        method: 'post',
+        credentials: "same-origin",
+        body: JSON.stringify(params)
+    }).then(function (response) {
+        // The API call was successful!
+        return response.json();
+    }).then(function (data) {
+        if (data.success) {
+            if (returnElement != null && addParams != null) {
+                returnElement(data, addParams);
+            } else if (returnElement != null) {
+                returnElement(data);
+            }
+        } else if (data.error) {
+            if (errorCallback != null && addParams != null) {
+                errorCallback(data, addParams);
+            } else if (errorCallback != null) {
+                errorCallback(data);
+            }
+        }
+
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    });
+}
+let extractHostname = function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("//") > -1) {
+        hostname = url.split('/')[2];
+    } else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}

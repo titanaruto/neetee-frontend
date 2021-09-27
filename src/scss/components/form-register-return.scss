@@ -1,0 +1,34 @@
+.form-register-return{
+  display: none;
+  &--show{
+    display: block;
+  }
+  &__title{
+    font-family: $main_theme_font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: $main_theme_black_color;
+    margin-bottom: 13px;
+  }
+  &__description{
+    font-family: $main_theme_font;
+    font-size: 18px;
+    line-height: 21px;
+    color: $main_theme_black_color;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+  &__captcha-wrapper{
+    justify-content: center;
+  }
+}
+@media (min-width: $desktop-width) {
+  .form-register-return{
+    max-width: 827px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
+}

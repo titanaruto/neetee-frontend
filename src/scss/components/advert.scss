@@ -1,0 +1,217 @@
+.advert {
+  padding-top: 40px;
+  border-top: 1px solid $grey_bcg;
+  &__icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 13px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--pro {
+      height: auto;
+      width: 30px;
+      font-family: $main_theme_font;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 14px;
+      color: $main_theme_white_color;
+      text-transform: uppercase;
+      background: #FF8A00;
+      box-shadow: 0 5px 5px rgba(255, 138, 0, 0.12);
+      border-radius: 5px;
+      padding: 6px 4px 5px 4px;
+      font-style: normal;
+      margin-right: 10px;
+      text-align: center;
+    }
+
+    &--fa {
+      font-size: 25px;
+      margin-right: 13px;
+    }
+
+    &--gray {
+      fill: $grey_item_hover;
+      color: $grey_item_hover;
+    }
+  }
+
+  &__description {
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  &__favorites {
+    margin: 0 0 0 auto;
+    width: 30px;
+  }
+
+  &__price {
+    .price {
+      &__title {
+        font-family: $main_theme_font;
+        font-size: 18px;
+        line-height: 21px;
+        color: $grey_decription_text;
+        margin-bottom: 10px;
+      }
+
+      &__value {
+        font-family: $main_theme_font;
+        font-weight: 500;
+        font-size: 48px;
+        line-height: 56px;
+        color: $main_theme_black_color;
+        margin-bottom: 10px;
+      }
+
+      &__wrapper {
+        &-characteristics {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 30px;
+
+        }
+
+        &-char {
+          height: 40px;
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-bottom: 10px;
+
+          &:nth-last-child(-n+2) {
+            margin-bottom: 0;
+          }
+        }
+
+        &-btn {
+          display: flex;
+        }
+      }
+
+      &__name {
+        font-family: $main_theme_font;
+        font-size: 14px;
+        line-height: 16px;
+        color: $grey_decription_text;
+        margin-bottom: 8px;
+      }
+
+      &__value-text {
+        font-family: $main_theme_font;
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        color: $color-price-advert-value-text;
+      }
+
+      &__btn {
+        &--magazine {
+          width: 192px;
+          margin-right: 18px;
+          font-size: 16px;
+          box-shadow: 0 10px 20px rgba(66, 112, 173, 0.19);
+        }
+
+        &--editer {
+          width: 70px;
+          box-shadow: 0 10px 20px rgba(66, 112, 173, 0.19);
+        }
+      }
+
+      &__icon {
+        &--editer {
+          margin-right: 0;
+        }
+      }
+    }
+
+  }
+
+  &__characteristics {
+    .characteristics {
+      &__wrapper-sell {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 13px;
+      }
+
+      &__item {
+        margin-bottom: 15px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      &__sell {
+        background-color: $grey_bcg_img;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 20px;
+        font-family: $main_theme_font;
+        font-size: 14px;
+        line-height: 16px;
+        width: max-content;
+        color: $main_theme_black_color;
+        height: 32px;
+        margin-right: 5px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      &__description {
+        font-family: $main_theme_font;
+        font-size: 12px;
+        line-height: 14px;
+        color: $light_grey_link;
+      }
+
+      &__btn-more {
+        font-family: $main_theme_font;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+        text-align: right;
+        color: $color-btn-more-comment;
+      }
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .advert {
+    padding-top: 52px;
+    border-top: none;
+
+    &__right-side {
+      top: -54px;
+    }
+
+    &__description {
+      width: calc(100% - 156px);
+      margin-bottom: 0;
+    }
+
+    .seller__wrapper {
+      margin-bottom: 39px;
+    }
+
+    &__characteristics {
+      .characteristics {
+        &__btn-more {
+          display: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,273 @@
+.main-footer {
+  background-color: $grey_path_bcg;
+  padding: 32px 20px 34px 20px;
+
+  .footer-header {
+    &__label {
+      color: $grey_label_text;
+      font-size: 12px;
+      font-family: $main_theme_font;
+      font-weight: 700;
+      margin-right: 11px;
+    }
+
+    &__lang {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 17px;
+      margin-bottom: 49px;
+      &:hover .flag-label{
+        display: block;
+      }
+      &:hover .flag-radio:checked + .flag-label{
+        position: relative;
+      }
+    }
+
+    &__content {
+      display: block;
+      height: 17px;
+      border-radius: 2px;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    &__icon {
+      width: 24px;
+      height: 17px;
+    }
+
+    &__flag {
+      display: block;
+      width: 24px;
+      height: 17px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      &:hover{
+        border: 3px solid $color-text-more;
+        border-radius: 5px;
+
+        & .flag-label{
+          position: relative;
+          top: -4px;
+          right: 2.3px;
+        }
+        & .footer-header__icon{
+          width: 23px;
+          height: 19px;
+        }
+      }
+      &:last-child{
+        margin-bottom: 0;
+      }
+      .flag-radio:checked + .flag-label{
+        display: block;
+        position: absolute;
+        top: -4px;
+        right: 2.3px;
+        & .footer-header__icon{
+          width: 23px;
+          height: 19px;
+        }
+      }
+      .flag-label{
+        display: none;
+        width: 24px;
+        height: 17px;
+      }
+    }
+
+    &__btn {
+      width: 20px;
+      height: 20px;
+      color: $main_theme_footer_btn-color;
+      cursor: pointer;
+    }
+
+    &__logo {
+      width: 184px;
+      height: 67px;
+      margin: 0 auto 24px auto;
+      &-img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .footer-info {
+    &__description {
+      color: $grey_decription_footer;
+      font-size: 14px;
+      font-family: $main_theme_font;
+      font-weight: bold;
+      text-align: center;
+      line-height: 24px;
+      margin-bottom: 23px;
+    }
+
+    &__navigation {
+      margin-bottom: 42px;
+    }
+
+    &__list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    &__item {
+      width: 49%;
+      text-align: center;
+      margin-bottom: 16px;
+
+      &:nth-last-child(-n+2) {
+        margin-bottom: 0;
+      }
+    }
+
+    &__link {
+      color: $main_theme_font_color_light;
+      font-family: $main_theme_font;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .cards {
+      &__title {
+        color: $main_theme_black_color;
+        font-family: $main_theme_font;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      &__list {
+        display: flex;
+        justify-content: center;
+        max-height: 33px;
+        margin-bottom: 36px;
+      }
+
+      &__item {
+        width: 100%;
+        max-width: 50px;
+        text-align: center;
+        margin-right: 27px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+    }
+
+    &__add-item {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__add-link {
+      color: $main_theme_black_color;
+      font-family: $main_theme_font;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
+
+
+@media (min-width: $desktop-width) {
+  .main-footer {
+    padding-top: 50px;
+
+    .footer-header {
+      position: relative;
+
+      &__lang {
+        position: absolute;
+        right: 0;
+      }
+
+      &__logo {
+        margin: 0;
+      }
+    }
+
+    .footer-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      &__item {
+        text-align: left;
+      }
+
+      &__description {
+        width: 620px;
+        order: 1;
+        text-align: left;
+        margin-right: 180px;
+        padding-top: 36px;
+        margin-bottom: 42px;
+      }
+
+      &__cards {
+        order: 4;
+        width: 290px;
+        .cards{
+          &__title{
+            text-align: left;
+          }
+          &__list{
+            justify-content: left;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      &__navigation {
+        order: 2;
+        text-align: left;
+        width: 290px;
+      }
+
+      &__add-navigation {
+        width: 620px;
+        order: 3;
+        text-align: left;
+        margin-right: 180px;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      &__add {
+        &-list {
+          display: flex;
+        }
+
+        &-item {
+          width: fit-content;
+          text-align: left;
+          margin-bottom: 0;
+          &:first-child{
+            margin-right: 34px;
+          }
+          &:nth-child(2n){
+            margin-right: 36px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
