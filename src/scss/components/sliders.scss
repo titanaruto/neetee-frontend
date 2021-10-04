@@ -158,8 +158,8 @@
       margin-left: 12px;
       text-indent: -999px;
       cursor: pointer;
-      width: 7px;
-      height: 7px;
+      width: 15px;
+      height: 15px;
       background: #FFFFFF;
       background-clip: padding-box;
       border-radius: 50%;
@@ -176,8 +176,8 @@
     &-item.active {
       border: 2px solid #FFFFFF;
       box-sizing: border-box;
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background-color: transparent;
       position: relative;
 
@@ -185,8 +185,8 @@
         content: '';
         position: absolute;
         display: block;
-        width: 7px;
-        height: 7px;
+        width: 15px;
+        height: 15px;
         background-color: #FFFFFF;
         top: 50%;
         left: 50%;
@@ -247,8 +247,8 @@
       margin-bottom: 20px;
 
       &-item {
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
       }
 
       &-item.active {
@@ -256,8 +256,8 @@
         height: 30px;
 
         &:after {
-          width: 10px;
-          height: 10px;
+          width: 15px;
+          height: 15px;
         }
       }
     }

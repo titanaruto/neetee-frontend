@@ -18,12 +18,15 @@ let sorting_form = document.querySelector("#sorting-form");
 let sorting_wrapper = document.querySelector(".products__sorting-wrapper");
 let products__all_wrapper = document.querySelector(".products__all-wrapper");
 let form_header = document.querySelector(".form-header");
+let form_header_login = document.querySelector(".form-header-login");
+let form_header_register = document.querySelector(".form-header-register");
 let login = document.querySelector(".main-header__btn--login");
 let login_form = document.querySelector(".form-header__btn-login");
 let registration = document.querySelector(".main-header__btn--registration");
 let registration_form = document.querySelector(".form-header__btn-registration");
 let close_form = document.querySelector(".form-header__icon--close");
-let captcha_test = document.querySelector("#form-header__captcha");
+let captcha_test_login = document.querySelector("#form-header__captcha-login");
+let captcha_test_register = document.querySelector("#form-header__captcha-register");
 let ajaxHedCatWrapper = document.querySelector('.ajax-header-categories__wrapper');
 let advertLoadImg = document.querySelector('#load-img-1');
 let listLoadImg = document.querySelector('.add-advert__list-img');
@@ -296,7 +299,7 @@ const handlerClickMoney = function handlerClickMoney(e) {
     }
 };
 if (prices__wrap != null) {
-    prices__wrap.addEventListener("click", handlerClickMoney);
+    // prices__wrap.addEventListener("click", handlerClickMoney);
 }
 let handlerClickSortingForm = function handlerClickSortingForm(e) {
     sorting_wrapper.classList.toggle("products__sorting-wrapper--active");
@@ -358,19 +361,21 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
 if (products__all_wrapper != null) {
     products__all_wrapper.addEventListener("click", handlerTabsClickProducts);
 }
+
 let handlerFormHeaderClickLogin = function handlerFormHeaderClickLogin(e) {
     e.preventDefault();
     let item = e.target;
-    form_header.classList.add("form-header--show");
-    form_header.action = urlParams + extractHostname(window.location.href) + '/login';
+    form_header_register.classList.remove("form-header--show");
+    form_header_login.classList.add("form-header--show");
+
     let width_document = document.documentElement.clientWidth;
     let minus_width;
     if (width_document < 1170) {
         minus_width = 30;
-        let width_form = form_header.clientWidth - minus_width;
+        let width_form = form_header_login.clientWidth - minus_width;
         let scale = (width_form / 304).toFixed(2);
-        captcha_test.style.transform = "scale(" + scale + ")";
-        captcha_test.style.transformOrigin = "left top";
+        captcha_test_login.style.transform = "scale(" + scale + ")";
+        captcha_test_login.style.transformOrigin = "left top";
     }
     overlay.classList.add("overlay--show");
     overlay_show = document.querySelector(".overlay--show");
@@ -378,59 +383,28 @@ let handlerFormHeaderClickLogin = function handlerFormHeaderClickLogin(e) {
         overlay_show.addEventListener("click", handlerClickOverlayClose);
     }
 
-    registration_form.classList.remove("form-header__btn--active");
 
-
-    document.getElementById("name").disabled = true;
-    document.getElementById("password_confirmation").disabled = true;
-    document.getElementById("nameRefer").disabled = true;
-    document.getElementById("email").classList.remove("form-header__inputs--show");
-    document.getElementById("password_confirmation").classList.remove("form-header__inputs--show");
-    document.getElementById("nameRefer").classList.remove("form-header__inputs--show");
-    document.querySelector(".form-header__submit-registration").classList.remove("form-header__submit--active");
-
-
-    login_form.classList.add("form-header__btn--active");
-    document.getElementById("email").disabled = false;
-    document.getElementById("password").disabled = false;
-    document.getElementById("email").classList.add("form-header__inputs--show");
-    document.getElementById("password").classList.add("form-header__inputs--show");
-    document.querySelector(".form-header__btn-wrapper-info").classList.add("form-header__btn-wrapper-info--show");
-    document.querySelector(".form-header__socials").classList.add("form-header__socials--show");
-    document.querySelector(".form-header__submit-login").classList.add("form-header__submit--active");
 };
 let handlerFormHeaderClickRegistration = function handlerFormHeaderClickRegistration(e) {
     e.preventDefault();
     let item = e.target;
-    form_header.classList.add("form-header--show");
-    form_header.action = urlParams + extractHostname(window.location.href) + '/register';
+    form_header_login.classList.remove("form-header--show");
+    form_header_register.classList.add("form-header--show");
     let width_document = document.documentElement.clientWidth;
 
     let minus_width;
     if (width_document < 1170) {
         minus_width = 30;
-        let width_form = form_header.clientWidth - minus_width;
+        let width_form = form_header_register.clientWidth - minus_width;
         let scale = (width_form / 304).toFixed(2);
-        captcha_test.style.transform = "scale(" + scale + ")";
-        captcha_test.style.transformOrigin = "left top";
+        captcha_test_register.style.transform = "scale(" + scale + ")";
+        captcha_test_register.style.transformOrigin = "left top";
     }
     overlay.classList.add("overlay--show");
     overlay_show = document.querySelector(".overlay--show");
     if (overlay_show != null) {
         overlay_show.addEventListener("click", handlerClickOverlayClose);
     }
-    login_form.classList.remove("form-header__btn--active");
-    document.querySelector(".form-header__btn-wrapper-info").classList.remove("form-header__btn-wrapper-info--show");
-    document.querySelector(".form-header__socials").classList.remove("form-header__socials--show");
-    document.querySelector(".form-header__submit-login").classList.remove("form-header__submit--active");
-
-    registration_form.classList.add("form-header__btn--active");
-    document.getElementById("name").classList.add("form-header__inputs--show");
-    document.getElementById("email").classList.add("form-header__inputs--show");
-    document.getElementById("password").classList.add("form-header__inputs--show");
-    document.getElementById("password_confirmation").classList.add("form-header__inputs--show");
-    document.getElementById("nameRefer").classList.add("form-header__inputs--show");
-    document.querySelector(".form-header__submit-registration").classList.add("form-header__submit--active");
 };
 if (login != null) {
     login.addEventListener("click", handlerFormHeaderClickLogin);
@@ -441,7 +415,8 @@ if (login != null) {
 
 
 let handlerFormHeaderClickClose = function handlerFormHeaderClickClose(e) {
-    form_header.classList.remove("form-header--show");
+    form_header_login.classList.remove("form-header--show");
+    form_header_register.classList.remove("form-header--show");
     overlay_show.classList.remove("overlay--show");
 };
 if (close_form != null) {
@@ -450,7 +425,8 @@ if (close_form != null) {
 let handlerClickOverlayClose = function handlerClickOverlayClose(e) {
     overlay_show.classList.remove("overlay--show");
     sorting_wrapper.classList.remove("products__sorting-wrapper--active");
-    form_header.classList.remove("form-header--show");
+    form_header_register.classList.remove("form-header--show");
+    form_header_login.classList.remove("form-header--show");
     let prices__submit = document.querySelector(".prices__submit--disable");
     let price_list = document.querySelector(".prices__list--show");
     if (price_list != null) {

@@ -35,7 +35,6 @@
       position: relative;
 
       &-info {
-        display: none;
 
         &--show {
           display: flex;
@@ -99,7 +98,6 @@
     width: 100%;
     font-size: 16px;
     margin-bottom: 10px;
-    display: none;
 
     &::placeholder {
       color: $form_color_line;
@@ -111,7 +109,6 @@
   }
 
   &__socials {
-    display: none;
     margin-bottom: 20px;
 
     &--show {
@@ -148,7 +145,6 @@
   }
 
   &__submit {
-    display: none;
     padding: 16px 20px;
     background-color: $green_buy;
     color: $main_theme_white_color;
