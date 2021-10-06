@@ -190,7 +190,7 @@
     }
 
     &__captcha {
-      transform: scale(0.633);
+      transform: scale(0.603);
       transform-origin: left top;
       width: 192px;
       height: 45px;
@@ -198,6 +198,7 @@
 
       &-wrapper {
         display: flex;
+        margin-bottom: 10px;
         justify-content: space-between;
       }
     }
@@ -206,11 +207,13 @@
       width: 128px;
       height: 45px;
       text-align: center;
+      margin-bottom: 0;
     }
 
 
     &__socials {
       align-items: center;
+      display: flex;
 
       &--show {
         display: flex;

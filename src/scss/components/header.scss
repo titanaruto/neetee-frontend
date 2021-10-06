@@ -2,6 +2,7 @@
   background-color: $main_theme_bcg_color;
   padding-top: 20px;
   padding-bottom: 18px;
+
   &--login{
     margin-bottom: 0;
   }
@@ -21,6 +22,7 @@
       display: block;
     }
   }
+
 
   &__logo{
     width: 105px;
@@ -69,10 +71,15 @@
       fill: $main_theme_blue_color;
       color: $main_theme_blue_color;
     }
+    &--ava{
+      font-size: 32px;
+      color: $grey_decription_text;
+    }
     &--store{
       width: 29px;
       height: 28px;
       fill: $grey_decription_text;
+
     }
     &--cog{
       font-size: 28px;
@@ -92,6 +99,40 @@
 
     &--comment{
       width: 18px;
+    }
+  }
+
+  &__settings{
+    &-wrapper{
+      position: relative;
+    }
+    &-checkbox:checked + .main-header__settings-label + .main-header__settings{
+      display: block;
+    }
+    position: absolute;
+    z-index: 99999;
+    top: 38px;
+    right: 31px;
+    display: none;
+    background: $main_theme_white_color;
+    border: 2px solid $grey_item_hover;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 6px 0;
+    color: $main_theme_black_color;
+
+    .settings{
+      &__element{
+        cursor: pointer;
+        padding: 10px 21px;
+        color: $main_theme_black_color;
+        &:hover{
+          background-color: $grey_item_hover;
+        }
+      }
+      &__link{
+        color: $main_theme_black_color;
+      }
     }
   }
   &__ava{
@@ -163,6 +204,9 @@
       max-width: 26px;
       min-height: 26px;
       margin-right: 32px;
+      &--ava{
+        font-size: 52px;
+      }
       &--bell{
         width: 21px;
       }

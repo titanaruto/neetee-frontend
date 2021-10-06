@@ -12,6 +12,7 @@ let prices__wrap = document.querySelector(".prices__wrap");
 let overlay = document.querySelector(".overlay");
 let overlay_show;
 let view_product = document.querySelector(".sorting__list-view");
+let products__button = document.querySelector(".products__button");
 let dogovor_check = document.querySelector("#dogovor_check");
 
 let sorting_form = document.querySelector("#sorting-form");
@@ -24,7 +25,8 @@ let login = document.querySelector(".main-header__btn--login");
 let login_form = document.querySelector(".form-header__btn-login");
 let registration = document.querySelector(".main-header__btn--registration");
 let registration_form = document.querySelector(".form-header__btn-registration");
-let close_form = document.querySelector(".form-header__icon--close");
+let close_form_login = document.querySelector(".form-header__icon--close-login");
+let close_form_register = document.querySelector(".form-header__icon--close-register");
 let captcha_test_login = document.querySelector("#form-header__captcha-login");
 let captcha_test_register = document.querySelector("#form-header__captcha-register");
 let ajaxHedCatWrapper = document.querySelector('.ajax-header-categories__wrapper');
@@ -37,6 +39,29 @@ let urlLoadRemoveImg = '/advert/load-remove-image';
 let loadPercent;
 let videoCount = 1;
 let imgLoadCount = 0;
+
+if (products__all_wrapper != null) {
+    let pr_grid2 = document.querySelector('.products__all-wrapper');
+    let pr_infScroll = new InfiniteScroll(pr_grid2, {
+        // options
+        path: function () {
+            let query = window.location.search.substring(1);
+            let qs = parse_query_string(query);
+            if (qs.cat != undefined) {
+                return `/?page=${(this.loadCount + 2)}&cat=${qs.cat}`;
+            } else {
+                return `/?page=${(this.loadCount + 2)}`;
+            }
+        },
+        loadOnScroll: false,
+        append: '.product-item',
+        history: false,
+        checkLastPage: false,
+        button: '.products__button',
+        scrollThreshold: false,
+        status: '.page-load-status'
+    });
+}
 let getTemplateDivVideoLink = function getTemplateDivVideoLink() {
     videoCount++;
     let divLoad = document.createElement('DIV');
@@ -191,6 +216,10 @@ if (advertLoadImg != null) {
 }
 let showCategory = function showCategory(data) {
     ajaxHedCatWrapper.innerHTML = data.view;
+    if(data.advert){
+        products__button.style.display = '';
+        products__all_wrapper.innerHTML = data.advert;
+    }
 }
 
 let handlerClickSubCategories = function handlerClickSubCategories(e) {
@@ -199,7 +228,17 @@ let handlerClickSubCategories = function handlerClickSubCategories(e) {
         let id = item.dataset.id;
         if (parseInt(id) || id == 0) {
             let url = urlCategory + id;
-            updateForm(url, {}, showCategory);
+
+            let urlParams = new URLSearchParams(window.location.search);
+            let params = {
+                'cat': (id != 0) ? id : '',
+            };
+            updateURL(params);
+            if (item.classList.contains('home')) {
+                updateForm(url, {'page': 'home'}, showCategory);
+            } else {
+                updateForm(url, {'page': 'advert'}, showCategory);
+            }
         }
     }
 }
@@ -419,8 +458,11 @@ let handlerFormHeaderClickClose = function handlerFormHeaderClickClose(e) {
     form_header_register.classList.remove("form-header--show");
     overlay_show.classList.remove("overlay--show");
 };
-if (close_form != null) {
-    close_form.addEventListener("click", handlerFormHeaderClickClose);
+if (close_form_login != null) {
+    close_form_login.addEventListener("click", handlerFormHeaderClickClose);
+}
+if (close_form_register != null) {
+    close_form_register.addEventListener("click", handlerFormHeaderClickClose);
 }
 let handlerClickOverlayClose = function handlerClickOverlayClose(e) {
     overlay_show.classList.remove("overlay--show");
@@ -438,7 +480,6 @@ let handlerClickOverlayClose = function handlerClickOverlayClose(e) {
 };
 
 let handlerChangeVievOnLine = function handlerChangeVievOnLine(e) {
-    // console.dir(e.target);
     let item = e.target;
     if (item.checked && item.id == "line") {
         products__all_wrapper.classList.add("products__all-wrapper--line");
@@ -589,4 +630,46 @@ let extractHostname = function extractHostname(url) {
     hostname = hostname.split('?')[0];
 
     return hostname;
+}
+
+function parse_query_string(query) {
+    let vars = query.split("&");
+    let query_string = {};
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split("=");
+        let key = decodeURIComponent(pair[0]);
+        let value = decodeURIComponent(pair[1]);
+        // If first entry with this name
+        if (typeof query_string[key] === "undefined") {
+            query_string[key] = decodeURIComponent(value);
+            // If second entry with this name
+        } else if (typeof query_string[key] === "string") {
+            let arr = [query_string[key], decodeURIComponent(value)];
+            query_string[key] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[key].push(decodeURIComponent(value));
+        }
+    }
+    return query_string;
+}
+
+let updateURL = function updateURL(obj) {
+    if (history.pushState) {
+        let baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        let search = window.location.search;
+        let newUrl = baseUrl + "?" + objectToQueryString(obj);
+        history.pushState(null, null, newUrl);
+    } else {
+        console.warn('History API не поддерживается');
+    }
+}
+let objectToQueryString = function objectToQueryString(obj) {
+    let str = [];
+    for (let p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    }
+    return str.join("&");
 }
