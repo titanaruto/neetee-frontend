@@ -1,0 +1,34 @@
+.admin-breadcrumb{
+  display: flex;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  &__list{
+
+  }
+  &__item{
+    margin-right: 30px;
+    color: $main_theme_black_color;
+    position: relative;
+    &:last-child{
+      margin-right: 0;
+    }
+    &--active{
+      &:after{
+        content: '';
+        display: block;
+        width: 100%;
+        position: absolute;
+        bottom: -10px;
+        height: 2px;
+        background-color: $color-text-more;
+
+      }
+    }
+  }
+  &__link{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: $main_theme_black_color;
+  }
+}
