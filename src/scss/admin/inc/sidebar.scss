@@ -1,0 +1,109 @@
+.admin-sidebar{
+  width: 250px;
+  padding-top: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: $main_theme_blue_color;
+  &__logo{
+    width: 123px;
+    height: 43px;
+    margin: 0 auto 40px auto;
+  }
+  &__img{
+    width: 100%;
+    height: 100%;
+  }
+  &__icon {
+    height: 102px;
+    max-width: 102px;
+    min-height: 102px;
+    display: block;
+    width: 100%;
+    fill: $grey_decription_text;
+    color: $grey_decription_text;
+    &:hover{
+      fill: $main_theme_white_color;
+      color: $main_theme_white_color;
+    }
+
+  }
+  &__ava{
+    width: 102px;
+    height: 102px;
+    margin: 0 auto 30px;
+  }
+  &__fio{
+    font-family: $main_theme_font;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: $main_theme_white_color;
+    margin-bottom: 40px;
+  }
+  &__nav{
+    margin-bottom: 35px;
+    .nav{
+      &__item{
+        padding: 21px 23px 18px 23px;
+        margin-bottom: 14px;
+        position: relative;
+        &:last-child{
+          margin-bottom: 0;
+        }
+        &:hover{
+          background: rgba(255,255,255,0.1);
+          &:before{
+            content: '';
+            display: block;
+            height: 100%;
+            width: 1px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: $main_theme_orange_color;
+          }
+        }
+      }
+      &__icon{
+        width: 20px;
+        height: 20px;
+        margin-right: 15px;
+        color: $main_theme_white_color;
+        fill: $main_theme_white_color;
+      }
+      &__link{
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        color: $main_theme_white_color;
+      }
+    }
+  }
+  &__btn-exit{
+    padding: 10px 15px;
+    background-color: transparent;
+    border: 2px solid $main_theme_white_color;
+    color: $main_theme_white_color;
+    box-sizing: border-box;
+    box-shadow: 0 10px 15px rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    display: block;
+    width: max-content;
+    &:hover{
+      background: rgba(255,255,255,0.1);
+    }
+  }
+
+
+}

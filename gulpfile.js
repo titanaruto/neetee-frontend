@@ -49,6 +49,18 @@ gulp.task('styles', function () {
         .pipe(gulp.dest('../backend/public/assets/css'))
         .pipe(browsersync.stream())
 });
+gulp.task('styles-admin', function () {
+    return gulp.src('src/scss/admin-main.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass({outputStyle: 'expand'}).on("error", notify.onError()))
+        //.pipe(rename({ suffix: '.min', prefix : '' }))
+        .pipe(concat('style.min.css'))
+        .pipe(autoprefixer(['last 15 versions']))
+        .pipe(cleancss({level: {1: {specialComments: 0}}})) // Opt., comment out when debugging
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('../backend/public/assets/css/admin'))
+        .pipe(browsersync.stream())
+});
 gulp.task('fonts', () => {
     return gulp.src('src/webfonts/**/*').pipe(gulp.dest('src/webfonts'));
 });
@@ -173,10 +185,11 @@ if (gulpversion == 3) {
 
 if (gulpversion == 4) {
     gulp.task('watch', function () {
+        gulp.watch('src/scss/**/*.scss', gulp.parallel('styles-admin')); // Наблюдение за sass файлами в папке sass в теме
         gulp.watch('src/scss/**/*.scss', gulp.parallel('styles')); // Наблюдение за sass файлами в папке sass в теме
         gulp.watch(['src/js/**/*.js'], gulp.parallel('scripts')); // Наблюдение за JS файлами в папке js
         gulp.watch('src/**/*.php', browsersync.reload);// Наблюдение за sass файлами php в теме
     });
 
-    gulp.task('default', gulp.parallel('webp', 'image-mini', 'imgmin-gif', 'sprite', 'fonts', 'styles', 'scripts', 'browser-sync', 'watch'));
+    gulp.task('default', gulp.parallel('webp', 'image-mini', 'imgmin-gif', 'sprite', 'fonts', 'styles', 'styles-admin', 'scripts', 'browser-sync', 'watch'));
 }

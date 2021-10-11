@@ -53,6 +53,9 @@ img {
 .scroll-y{
   overflow-y: scroll;
 }
+.admin-container{
+  display: flex;
+}
 @media (min-width: $desktop-width) {
   .container{
     padding: 0;

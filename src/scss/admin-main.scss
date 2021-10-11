@@ -1,0 +1,10 @@
+@import 'helpers/variables';
+@import 'base/reset';
+@import 'base/common';
+@import 'components/pagination';
+
+//fonts
+@import 'fonts/all';
+//inc
+@import 'admin/inc/sidebar';
+@import 'admin/inc/content';
