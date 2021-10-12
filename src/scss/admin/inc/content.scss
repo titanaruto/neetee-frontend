@@ -33,6 +33,12 @@
     }
   }
   &__table{
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+
     &-wrapper{
       margin-bottom: 35px;
     }
@@ -94,6 +100,9 @@
       padding-left: 28px;
       text-align: left;
     }
+    &:first-child{
+      text-align: left;
+    }
 
     &-th{
       padding: 12px 11px 12px 12px;
@@ -101,6 +110,7 @@
       color: $main_theme_white_color;
       text-align: center;
       border: none;
+      vertical-align: middle;
       &:first-child{
         text-align: left;
       }
@@ -109,6 +119,8 @@
   &__pagination{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: end;
     .pagination{
       &__total,&__wrapper-select,&__wrapper-input{
         margin-right: 20px;
@@ -118,6 +130,7 @@
       &__form{
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
       }
       &__input{
         font-size: 14px;
@@ -134,5 +147,54 @@
         width: 46px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
   }
 }
