@@ -32,4 +32,107 @@
       background-color: $red_arrow;
     }
   }
+  &__table{
+    &-wrapper{
+      margin-bottom: 35px;
+    }
+    &-icon{
+      font-size: 22px;
+      display: block;
+      border-radius: 50%;
+      cursor: pointer;
+      width: 22px;
+      height: 22px;
+      color: $main_theme_white_color;
+      fill: $main_theme_white_color;
+      margin-right: 10px;
+      &:last-child{
+        margin-right: 0;
+      }
+      &--eye{
+        background-color: $color-text-more;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      &--eye-slash{
+        font-size: 12px;
+        background-color: $grey_decription_text;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      &--plus{
+        color: $green_buy;
+      }
+    }
+  }
+  &__link{
+    &--category{
+      color: $color-text-more;
+    }
+  }
+  &__label{
+    cursor: pointer;
+    color: $grey_item_hover;
+  }
+  &__checkbox:checked + .admin-content__label:before{
+    content: '\f14a';
+  }
+  &__wrapper-icon{
+    display: flex;
+  }
+  &__col{
+    padding: 12px 11px 12px 12px;
+    vertical-align: middle;
+    border: 1px solid $grey_item_hover;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    &:nth-child(4n){
+      padding-left: 28px;
+      text-align: left;
+    }
+
+    &-th{
+      padding: 12px 11px 12px 12px;
+      background-color: $grey_decription_text;
+      color: $main_theme_white_color;
+      text-align: center;
+      border: none;
+      &:first-child{
+        text-align: left;
+      }
+    }
+  }
+  &__pagination{
+    display: flex;
+    align-items: center;
+    .pagination{
+      &__total,&__wrapper-select,&__wrapper-input{
+        margin-right: 20px;
+      }
+      &__wrapper-select,
+      &__wrapper-input,
+      &__form{
+        display: flex;
+        align-items: center;
+      }
+      &__input{
+        font-size: 14px;
+        width: 35px;
+        height: 20px;
+        padding: 2px 5px;
+        line-height: 16px;
+        border: 1px solid $grey_item_hover;
+        border-radius: 5px;
+        text-align: center;
+        background-color: $main_theme_white_color;
+      }
+      &__select{
+        width: 46px;
+      }
+    }
+  }
 }

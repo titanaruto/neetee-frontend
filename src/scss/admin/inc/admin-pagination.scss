@@ -1,0 +1,28 @@
+.admin-pagination{
+  display: flex;
+  &__link{
+    color: $grey_item_hover;
+  }
+  &__item{
+    color: $grey_item_hover;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    margin-right: 31px;
+    &:last-child{
+      margin-right: 0;
+    }
+    &--next{
+      margin-left: 42px;
+      color: $grey_decription_text;
+    }
+    &--prev{
+      margin-right: 42px;
+      color: $grey_decription_text;
+    }
+    &--active{
+
+      color: $main_theme_black_color;
+    }
+  }
+}
