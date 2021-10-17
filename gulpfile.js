@@ -90,6 +90,20 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest('../backend/public/assets/js'))
         .pipe(browsersync.reload({stream: true}))
 });
+gulp.task('admin-scripts', function () {
+    return gulp.src([
+        'src/js/admin-script.js',
+    ])
+        .pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(concat('scripts.min.js'))
+        // .pipe(uglify()) // Mifify js (opt.)
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('../backend/public/assets/js/admin'))
+        .pipe(browsersync.reload({stream: true}))
+});
 
 gulp.task('sprite', () => {
     return gulp
@@ -188,8 +202,9 @@ if (gulpversion == 4) {
         gulp.watch('src/scss/**/*.scss', gulp.parallel('styles-admin')); // Наблюдение за sass файлами в папке sass в теме
         gulp.watch('src/scss/**/*.scss', gulp.parallel('styles')); // Наблюдение за sass файлами в папке sass в теме
         gulp.watch(['src/js/**/*.js'], gulp.parallel('scripts')); // Наблюдение за JS файлами в папке js
+        gulp.watch(['src/js/**/*.js'], gulp.parallel('admin-scripts')); // Наблюдение за JS файлами в папке js
         gulp.watch('src/**/*.php', browsersync.reload);// Наблюдение за sass файлами php в теме
     });
 
-    gulp.task('default', gulp.parallel('webp', 'image-mini', 'imgmin-gif', 'sprite', 'fonts', 'styles', 'styles-admin', 'scripts', 'browser-sync', 'watch'));
+    gulp.task('default', gulp.parallel('webp', 'image-mini', 'imgmin-gif', 'sprite', 'fonts', 'styles', 'styles-admin', 'scripts', 'admin-scripts', 'browser-sync', 'watch'));
 }
