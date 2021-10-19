@@ -22,7 +22,7 @@
     color: $main_theme_white_color;
     height: 30px;
     &:hover{
-      color: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
     }
 
     &--add{
@@ -71,6 +71,10 @@
       }
       &--plus{
         color: $green_buy;
+      }
+      &--edit{
+        fill: $main_theme_orange_color;
+        color: $main_theme_orange_color;
       }
     }
   }

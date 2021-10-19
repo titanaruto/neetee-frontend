@@ -69,15 +69,9 @@ gulp.task('fonts', () => {
 // Обьединяем файлы скриптов, сжимаем и переменовываем
 gulp.task('scripts', function () {
     return gulp.src([
-        // 'src/js/lib/swiper-bundle.min.js',
+        'src/js/updateForm.js',
         'src/js/script.js',
-        // 'src/js/nouislider.min.js',
-        // 'src/js/filter.js',
-        // 'src/js/header.js',
-        // 'src/js/lib/picturefill.min.js',
-        // 'src/js/lib/slider-product.js',
         'src/js/sliders.js',
-        // 'src/js/lib/slider-down.js',
 
     ])
         .pipe(sourcemaps.init())
@@ -92,6 +86,7 @@ gulp.task('scripts', function () {
 });
 gulp.task('admin-scripts', function () {
     return gulp.src([
+        'src/js/updateForm.js',
         'src/js/admin-script.js',
     ])
         .pipe(sourcemaps.init())
