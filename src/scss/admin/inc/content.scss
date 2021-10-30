@@ -61,6 +61,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        &:before{
+          content: "\f06e";
+        }
+
       }
       &--eye-slash{
         font-size: 12px;
@@ -68,6 +72,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        &:before{
+          content: "\f070";
+        }
       }
       &--plus{
         color: $green_buy;

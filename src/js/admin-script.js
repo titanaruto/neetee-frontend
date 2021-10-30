@@ -1,9 +1,18 @@
 "use strict";
 
-let btnAddFormCategory = document.querySelector('.admin-content__btn--add');
+const BTN_CONST = {
+    'edit':'admin-content__table-icon--edit',
+    'eye':'admin-content__table-icon--eye',
+    'eyeSlash':'admin-content__table-icon--eye-slash',
+    'add': '.admin-content__btn--add',
+    'delete': '.admin-content__btn--delete',
+    'close': '.form-admin__icon--close',
+};
+
+let btnAddFormCategory = document.querySelector(BTN_CONST.add);
 let overlay = document.querySelector('.overlay');
-let closeForm = document.querySelector('.form-admin__icon--close');
-let btnDelete = document.querySelector('.admin-content__btn--delete');
+let closeForm = document.querySelector(BTN_CONST.close);
+let btnDelete = document.querySelector(BTN_CONST.delete);
 let formCategoryAdd = document.querySelector('.category-add');
 let colAllCheckbox = document.querySelector('#col-all');
 let tableCategory = document.querySelector('.admin-content__table');
@@ -11,6 +20,7 @@ let close = document.querySelector('.close');
 let form = document.querySelector('.form');
 let URL_UPDATE_CATEGORY = 'category/get-date/'
 let URL_DELETE_CATEGORY = 'category/delete'
+let URL_CATEGORY_CHANGE_STATUS = 'category/change-status/'
 
 let handlerDeleteCategoryCallback = function handlerDeleteCategoryCallback(data){
     window.location.reload();
@@ -47,12 +57,29 @@ let editCallback = function editCallback(data) {
     closeForm = document.querySelector('.form-admin__icon--close');
     closeForm.addEventListener("click", handlerFormClickClose);
 }
+let changeStatusCallback = function changeStatusCallback(data,item){
+     if (item.classList.contains(BTN_CONST.eye)){
+         item.classList.remove(BTN_CONST.eye);
+         item.classList.add(BTN_CONST.eyeSlash);
+    } else if(item.classList.contains(BTN_CONST.eyeSlash)){
+         item.classList.remove(BTN_CONST.eyeSlash);
+         item.classList.add(BTN_CONST.eye);
+    }
+}
 let handlerClickBtn = function handlerClickBtn(e) {
     let item = e.target;
-    if (item.classList.contains('admin-content__table-icon--edit')) {
+    if(item.classList.contains('admin-content__table-icon')){
         let id = item.dataset.id;
-        updateForm(URL_UPDATE_CATEGORY + id, {}, editCallback);
+        if (item.classList.contains(BTN_CONST.edit)) {
+            updateForm(URL_UPDATE_CATEGORY + id, {}, editCallback);
+        }
+        else if (item.classList.contains(BTN_CONST.eye)){
+            updateForm(URL_CATEGORY_CHANGE_STATUS + id, {'status':''}, changeStatusCallback, item);
+        } else if(item.classList.contains(BTN_CONST.eyeSlash)){
+            updateForm(URL_CATEGORY_CHANGE_STATUS + id, {'status':'see'}, changeStatusCallback,item);
+        }
     }
+
 }
 
 if (tableCategory != null) {
