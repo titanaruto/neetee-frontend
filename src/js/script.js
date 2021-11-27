@@ -365,6 +365,7 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
     if (item.nodeName === "I" && item.classList.contains("product-item__icon")) {
         let parentItem = item.parentElement.parentElement.parentElement;
         let id = parentItem.dataset.id;
+        // debugger;
         parentItem.querySelector(".product-item__title").classList.add("product-item__title--show");
         parentItem.querySelector(".product-item__wrapper").classList.add("product-item__wrapper--disabled");
         parentItem.querySelector(".product-item__description-mb").classList.add("product-item__description-mb--disabled");
@@ -375,24 +376,65 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
         parentItem.querySelector(".product-item__author").classList.remove("product-item__author--show");
         parentItem.querySelector(".product-item__basket").classList.remove("product-item__basket--show");
 
+        // if()
 
-        parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
-        parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
-        parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
-        parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
 
         if (item.classList.contains("product-item__icon--briefcase")) {
-            parentItem.querySelector(".product-item__info").classList.add("product-item__info--show");
-            item.classList.add("product-item__icon--briefcase-active");
+            if(item.classList.contains("product-item__icon--briefcase-active")){
+                parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
+                parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
+                parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
+                parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
+            } else{
+                parentItem.querySelector(".product-item__info").classList.add("product-item__info--show");
+                parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
+                parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
+                parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
+                item.classList.add("product-item__icon--briefcase-active");
+            }
+
         } else if (item.classList.contains("product-item__icon--star")) {
-            parentItem.querySelector(".product-item__star").classList.add("product-item__star--show");
-            item.classList.add("product-item__icon--star-active");
+            if(item.classList.contains("product-item__icon--star-active")){
+                parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
+                parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
+                parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
+                parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
+            } else{
+                parentItem.querySelector(".product-item__star").classList.add("product-item__star--show");
+                parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
+                parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
+                parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
+                item.classList.add("product-item__icon--star-active");
+            }
+
         } else if (item.classList.contains("product-item__icon--profile")) {
-            parentItem.querySelector(".product-item__author").classList.add("product-item__author--show");
-            item.classList.add("product-item__icon--profile-active");
+            if(item.classList.contains("product-item__icon--profile-active")){
+                parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
+                parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
+                parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
+                parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
+            } else{
+                parentItem.querySelector(".product-item__author").classList.add("product-item__author--show");
+                parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
+                parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
+                parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
+                item.classList.add("product-item__icon--profile-active");
+            }
+
         } else if (item.classList.contains("product-item__icon--buy")) {
-            parentItem.querySelector(".product-item__basket").classList.add("product-item__basket--show");
-            item.classList.add("product-item__icon--buy-active");
+            if(item.classList.contains("product-item__icon--buy-active")){
+                parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
+                parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
+                parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
+                parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
+            } else{
+                parentItem.querySelector(".product-item__basket").classList.add("product-item__basket--show");
+                item.classList.add("product-item__icon--buy-active");
+                parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
+                parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
+                parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
+            }
+
         }
 
     }

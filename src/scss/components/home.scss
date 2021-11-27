@@ -423,6 +423,7 @@
       height: 17px;
       color: $light_grey_link;
       cursor: pointer;
+      display: none;
     }
 
     &__sorting {
@@ -527,6 +528,14 @@
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 36px;
+      &--first{
+        .product-item:nth-child(3n){
+          margin-right: 0;
+        }
+        .product-item:nth-child(4n){
+          margin-right: 30px !important;
+        }
+      }
     }
 
     .product-item {
