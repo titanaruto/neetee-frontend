@@ -11,6 +11,8 @@
   &__radio {
     &-item {
       width: 49%;
+      display: flex;
+      align-items: center;
     }
 
     &-icon {
@@ -36,6 +38,7 @@
       font-family: $main_theme_font;
       font-weight: normal;
       font-size: 14px;
+      align-items: center;
       color: $grey_decription_text;
     }
   }

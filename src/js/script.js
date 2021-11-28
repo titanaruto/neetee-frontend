@@ -14,6 +14,7 @@ let overlay_show;
 let view_product = document.querySelector(".sorting__list-view");
 let products__button = document.querySelector(".products__button");
 let dogovor_check = document.querySelector("#dogovor_check");
+let list_address = document.querySelector('.params-created__list-address');
 
 let sorting_form = document.querySelector("#sorting-form");
 let sorting_wrapper = document.querySelector(".products__sorting-wrapper");
@@ -575,7 +576,13 @@ let handlerRadioChange = function handlerRadioChange(e) {
 if (account__radio_list != null) {
     account__radio_list.addEventListener('input', handlerRadioChange);
 }
-let countAddress = 1;
+let countAddress;
+if(list_address != null){
+    countAddress = (list_address.children.length/2)+1;
+}  else{
+    countAddress = 1;
+}
+
 let handlerClickAddAddress = function handlerClickAddAddress(e) {
     let item = e.target;
     if ((item.nodeName === "LABEL" || item.nodeName === "I") || item.classList.contains('profile-page__params-icons')) {
@@ -588,7 +595,6 @@ let handlerClickAddAddress = function handlerClickAddAddress(e) {
         input.classList.add('profile-page__params-input');
         input.id = 'address' + countAddress;
         input.type = 'text';
-        input.required = true;
         input.placeholder = 'Укажите ваш дополнительный адрес нахождения';
         input.name = 'address' + countAddress;
         list_address.append(label, input);
