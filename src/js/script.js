@@ -32,8 +32,13 @@ let captcha_test_login = document.querySelector("#form-header__captcha-login");
 let captcha_test_register = document.querySelector("#form-header__captcha-register");
 let ajaxHedCatWrapper = document.querySelector('.ajax-header-categories__wrapper');
 let advertLoadImg = document.querySelector('#load-img-1');
+let advertLoadImg2 = document.querySelector('#load-img-2');
+let loadImgPc = document.querySelector('#load-img-pc');
+let loadImgMb = document.querySelector('#load-img-mb');
+let loadImgLogo = document.querySelector('#load-img-logo');
 let listLoadImg = document.querySelector('.add-advert__list-img');
 let addVideoLink = document.querySelector('.add-advert__links');
+let addVideoLink2 = document.querySelector('.add-advert__links2');
 let urlCategory = '/advert/category/';
 let urlLoadImg = '/advert/load-image';
 let urlLoadRemoveImg = '/advert/load-remove-image';
@@ -63,8 +68,9 @@ if (products__all_wrapper != null) {
         status: '.page-load-status'
     });
 }
-let getTemplateDivVideoLink = function getTemplateDivVideoLink() {
+let getTemplateDivVideoLink = function getTemplateDivVideoLink(item) {
     videoCount++;
+    addVideoLink = item;
     let divLoad = document.createElement('DIV');
     divLoad.classList.add('seller__ref-wrapper');
     divLoad.classList.add('add-advert__ref-wrapper');
@@ -97,7 +103,7 @@ let addInputLinkVideo = function addInputLinkVideo(e) {
         let div = item.parentElement;
         let input = item.parentElement.querySelector('.add-advert__input-link');
         if (input.value != '') {
-            item.remove();
+
             input.classList.remove('add-advert__icon-block--red');
             input.classList.add('add-advert__icon-block--green');
             let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
@@ -111,7 +117,8 @@ let addInputLinkVideo = function addInputLinkVideo(e) {
             svgElem.addEventListener('click', removeInput);
             svgElem.appendChild(useElem);
             div.append(svgElem);
-            let addElement = getTemplateDivVideoLink();
+            let addElement = getTemplateDivVideoLink(item.parentElement.parentElement);
+            item.remove();
 
         } else {
             input.classList.remove('add-advert__icon-block--green');
@@ -122,6 +129,9 @@ let addInputLinkVideo = function addInputLinkVideo(e) {
 
 if (addVideoLink != null) {
     addVideoLink.addEventListener('click', addInputLinkVideo)
+}
+if (addVideoLink2 != null) {
+    addVideoLink2.addEventListener('click', addInputLinkVideo)
 }
 let removeDivImg = function removeDivImg(data, item) {
     item.parentElement.remove();
@@ -134,8 +144,10 @@ let removeLoadImg = function removeLoadImg(e) {
     }
 }
 
+
 let handlerLoadImg = function hanlderLoadImg(e) {
     let divLoad = document.createElement('DIV');
+    listLoadImg = e.target.parentElement.parentElement;
     divLoad.classList.add('add-advert__item-img');
     divLoad.classList.add('add-advert__item-load');
 
@@ -155,23 +167,22 @@ let handlerLoadImg = function hanlderLoadImg(e) {
     divLoadWrapperImg.appendChild(loadPercent);
     divLoad.appendChild(divLoadWrapperImg);
     listLoadImg.append(divLoad);
-    uploadFile(e.target)
+    uploadFile(e.target, progressHandlerLoadMany, completeHandlerLoadMany, urlLoadImg)
 }
 
-function uploadFile(file) {
+function uploadFile(file, progressFunction, completeFunction, URl) {
     let formData = new FormData();
     formData.append("file", file.files[0]);
     let ajax = new XMLHttpRequest();
     let token = document.querySelector('meta[name="csrf-token"]')['content'];
-    ajax.upload.addEventListener("progress", progressHandler);
-    ajax.addEventListener("load", completeHandler);
-    ajax.open("POST", urlLoadImg);
+    ajax.upload.addEventListener("progress", progressFunction);
+    ajax.addEventListener("load", completeFunction);
+    ajax.open("POST", URl);
     ajax.setRequestHeader('X-CSRF-TOKEN', token);
     ajax.send(formData);
-
 }
 
-function completeHandler(event) {
+function completeHandlerLoadMany(event) {
     let test = JSON.parse(event.target.response);
     loadPercent.value = 100;
 
@@ -193,7 +204,7 @@ function completeHandler(event) {
         useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     svgElem.classList.add('add-advert__icon-delete');
     useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
-    svgElem.addEventListener('click', removeLoadImg);
+    svgElem.addEventListener('click', removeDivImgInfo);
     svgElem.dataset.name = test.pathFile;
 
     svgElem.appendChild(useElem);
@@ -204,9 +215,21 @@ function completeHandler(event) {
     listLoadImg.append(divImg);
 
 }
+let removeDivImgInfo = function removeDivImgInfo(data, item) {
+    item.parentElement.style.background = 'none';
+    item.parentElement.classList.remove('add-advert__item-not-line');
+    item.parentElement.querySelector('.add-advert__icon-delete').remove();
+}
 
+let removeLoadImgInfo = function removeLoadImgInfo(e) {
+    let item = e.target;
+    if (item.classList.contains('add-advert__icon-delete')) {
+        let name = item.dataset.name;
+        updateForm(urlLoadRemoveImg, {'name': name}, removeDivImgInfo, item)
+    }
+}
 
-function progressHandler(event) {
+function progressHandlerLoadMany(event) {
     let percent = 100 * (event.loaded / event.total);
     loadPercent.innerHTML = Math.round(percent) + "%";
 }
@@ -215,9 +238,62 @@ function progressHandler(event) {
 if (advertLoadImg != null) {
     advertLoadImg.addEventListener('input', handlerLoadImg)
 }
+if (advertLoadImg2 != null) {
+    advertLoadImg2.addEventListener('input', handlerLoadImg)
+}
+
+let completeHandlerOneImg = function completeHandlerOneImg(event) {
+    let test = JSON.parse(event.target.response);
+    let divImg = loadPercent.parentElement;
+    divImg.style.background = " center / cover no-repeat url('" + test.pathFile + "')";
+    loadPercent.value = 100;
+    divImg.classList.add('add-advert__item-img');
+    divImg.classList.add('add-advert__item-not-line');
+    let label = divImg.querySelector('.add-advert__label-img');
+    let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+        useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    svgElem.classList.add('add-advert__icon-delete');
+    useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
+    svgElem.addEventListener('click', removeLoadImgInfo);
+    svgElem.dataset.name = test.pathFile;
+
+    svgElem.appendChild(useElem);
+    divImg.append(svgElem);
+    loadPercent.style.display = 'none';
+    label.removeChild(document.querySelector('.add-advert__icon-load-animation'));
+}
+
+let handlerLoaderImgPC = function handlerLoaderImgPC(e) {
+
+    let parent = e.target.parentElement;
+    loadPercent = document.createElement('P');
+    loadPercent.classList.add('add-advert__item-percent');
+    loadPercent.innerHTML = "0%";
+    parent.append(loadPercent);
+
+    let loadGif = document.createElement('IMG');
+    loadGif.classList.add('add-advert__icon-load-animation');
+    loadGif.src = '/assets/img/gif/load.gif';
+    loadGif.alt = 'gif-load';
+    let label = parent.querySelector('.add-advert__label-img');
+    label.append(loadGif);
+    uploadFile(e.target, progressHandlerLoadMany, completeHandlerOneImg, urlLoadImg)
+}
+
+if (loadImgPc != null) {
+    loadImgPc.addEventListener('input', handlerLoaderImgPC)
+}
+
+if (loadImgMb != null) {
+    loadImgMb.addEventListener('input', handlerLoaderImgPC)
+}
+
+if (loadImgLogo != null) {
+    loadImgLogo.addEventListener('input', handlerLoaderImgPC)
+}
 let showCategory = function showCategory(data) {
     ajaxHedCatWrapper.innerHTML = data.view;
-    if(data.advert){
+    if (data.advert) {
         products__button.style.display = '';
         products__all_wrapper.innerHTML = data.advert;
     }
@@ -366,7 +442,6 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
     if (item.nodeName === "I" && item.classList.contains("product-item__icon")) {
         let parentItem = item.parentElement.parentElement.parentElement;
         let id = parentItem.dataset.id;
-        // debugger;
         parentItem.querySelector(".product-item__title").classList.add("product-item__title--show");
         parentItem.querySelector(".product-item__wrapper").classList.add("product-item__wrapper--disabled");
         parentItem.querySelector(".product-item__description-mb").classList.add("product-item__description-mb--disabled");
@@ -381,12 +456,12 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
 
 
         if (item.classList.contains("product-item__icon--briefcase")) {
-            if(item.classList.contains("product-item__icon--briefcase-active")){
+            if (item.classList.contains("product-item__icon--briefcase-active")) {
                 parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
                 parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
                 parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
                 parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
-            } else{
+            } else {
                 parentItem.querySelector(".product-item__info").classList.add("product-item__info--show");
                 parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
                 parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
@@ -395,12 +470,12 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
             }
 
         } else if (item.classList.contains("product-item__icon--star")) {
-            if(item.classList.contains("product-item__icon--star-active")){
+            if (item.classList.contains("product-item__icon--star-active")) {
                 parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
                 parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
                 parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
                 parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
-            } else{
+            } else {
                 parentItem.querySelector(".product-item__star").classList.add("product-item__star--show");
                 parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
                 parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
@@ -409,12 +484,12 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
             }
 
         } else if (item.classList.contains("product-item__icon--profile")) {
-            if(item.classList.contains("product-item__icon--profile-active")){
+            if (item.classList.contains("product-item__icon--profile-active")) {
                 parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
                 parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
                 parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
                 parentItem.querySelector(".product-item__icon--profile").classList.remove("product-item__icon--profile-active");
-            } else{
+            } else {
                 parentItem.querySelector(".product-item__author").classList.add("product-item__author--show");
                 parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
                 parentItem.querySelector(".product-item__icon--star").classList.remove("product-item__icon--star-active");
@@ -423,12 +498,12 @@ let handlerTabsClickProducts = function handlerTabsClickProducts(e) {
             }
 
         } else if (item.classList.contains("product-item__icon--buy")) {
-            if(item.classList.contains("product-item__icon--buy-active")){
+            if (item.classList.contains("product-item__icon--buy-active")) {
                 parentItem.querySelector(".product-item__wrapper").classList.remove("product-item__wrapper--disabled");
                 parentItem.querySelector(".product-item__description-mb").classList.remove("product-item__description-mb--disabled");
                 parentItem.querySelector(".product-item__information-line-wrapper").classList.remove("product-item__information-line-wrapper--disabled");
                 parentItem.querySelector(".product-item__icon--buy").classList.remove("product-item__icon--buy-active");
-            } else{
+            } else {
                 parentItem.querySelector(".product-item__basket").classList.add("product-item__basket--show");
                 item.classList.add("product-item__icon--buy-active");
                 parentItem.querySelector(".product-item__icon--briefcase").classList.remove("product-item__icon--briefcase-active");
@@ -577,9 +652,9 @@ if (account__radio_list != null) {
     account__radio_list.addEventListener('input', handlerRadioChange);
 }
 let countAddress;
-if(list_address != null){
-    countAddress = (list_address.children.length/2)+1;
-}  else{
+if (list_address != null) {
+    countAddress = (list_address.children.length / 2) + 1;
+} else {
     countAddress = 1;
 }
 
