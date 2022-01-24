@@ -379,7 +379,7 @@ if (ajaxHedCatWrapper != null) {
 
 const handlerClickMoney = function handlerClickMoney(e) {
     let item = e.target;
-
+    
     if ((item.nodeName === "I" && item.classList.contains("prices__icon") && item.parentElement.classList.contains("prices__submit")) ||
         (item.nodeName === "BUTTON" && item.classList.contains("prices__submit"))) {
         if (item.nodeName === "BUTTON" && item.classList.contains("prices__submit")) {
