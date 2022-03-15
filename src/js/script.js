@@ -697,7 +697,8 @@ let handlerRadioChange = function handlerRadioChange(e) {
     let item = e.target;
     if (item.nodeName === "INPUT" && item.classList.contains('account__radio-input')) {
         let id = item.id;
-        document.querySelector('.account__params-show').classList.remove("account__params-show");
+        let account__params = document.querySelector('.account__params-show');
+        if(account__params!= null)account__params.classList.remove("account__params-show");
         document.querySelector('.account__' + id).classList.add("account__params-show");
     }
 };
