@@ -31,7 +31,7 @@ let close_form_register = document.querySelector(".form-header__icon--close-regi
 let captcha_test_login = document.querySelector("#form-header__captcha-login");
 let captcha_test_register = document.querySelector("#form-header__captcha-register");
 let ajaxHedCatWrapper = document.querySelector('.ajax-header-categories__wrapper');
-let advertLoadImg = document.querySelector('#load-img-1');
+let advertLoadImg = document.querySelector('#load-img-global');
 let advertLoadImg2 = document.querySelector('#load-img-2');
 let loadImgPc = document.querySelector('#load-img-pc');
 let loadImgMb = document.querySelector('#load-img-mb');
@@ -136,7 +136,12 @@ if (addVideoLink2 != null) {
     addVideoLink2.addEventListener('click', addInputLinkVideo)
 }
 let removeDivImg = function removeDivImg(data, item) {
+    let file = item.parentElement.parentElement.querySelector('input[type=file]');
+    if (file) {
+        file.value = '';
+    }
     item.parentElement.remove();
+
 }
 let removeLoadImg = function removeLoadImg(e) {
     let item = e.target;
@@ -148,40 +153,45 @@ let removeLoadImg = function removeLoadImg(e) {
 
 
 let handlerLoadImg = function hanlderLoadImg(e) {
-    let divLoad = document.createElement('DIV');
-    listLoadImg = e.target.parentElement.parentElement;
-    divLoad.classList.add('add-advert__item-img');
-    divLoad.classList.add('add-advert__item-load');
+    if (e.target.files.length) {
+        let divLoad = document.createElement('DIV');
+        listLoadImg = e.target.parentElement.parentElement;
+        divLoad.classList.add('add-advert__item-img');
+        divLoad.classList.add('add-advert__item-load');
 
-    let divLoadWrapperImg = document.createElement('DIV');
-    divLoadWrapperImg.classList.add('add-advert__item-wrapper-load');
+        let divLoadWrapperImg = document.createElement('DIV');
+        divLoadWrapperImg.classList.add('add-advert__item-wrapper-load');
 
-    let loadGif = document.createElement('IMG');
-    loadGif.classList.add('add-advert__icon-load-animation');
-    loadGif.src = '/assets/img/gif/load.gif';
-    loadGif.alt = 'gif-load';
+        let loadGif = document.createElement('IMG');
+        loadGif.classList.add('add-advert__icon-load-animation');
+        loadGif.src = '/assets/img/gif/load.gif';
+        loadGif.alt = 'gif-load';
 
-    loadPercent = document.createElement('P');
-    loadPercent.classList.add('add-advert__item-percent');
-    loadPercent.innerHTML = "0%";
+        loadPercent = document.createElement('P');
+        loadPercent.classList.add('add-advert__item-percent');
+        loadPercent.innerHTML = "0%";
 
-    divLoadWrapperImg.appendChild(loadGif);
-    divLoadWrapperImg.appendChild(loadPercent);
-    divLoad.appendChild(divLoadWrapperImg);
-    listLoadImg.append(divLoad);
-    uploadFile(e.target, progressHandlerLoadMany, completeHandlerLoadMany, urlLoadImg)
+        divLoadWrapperImg.appendChild(loadGif);
+        divLoadWrapperImg.appendChild(loadPercent);
+        divLoad.appendChild(divLoadWrapperImg);
+        listLoadImg.append(divLoad);
+        uploadFile(e.target, progressHandlerLoadMany, completeHandlerLoadMany, urlLoadImg)
+    }
 }
 
 function uploadFile(file, progressFunction, completeFunction, URl) {
     let formData = new FormData();
-    formData.append("file", file.files[0]);
-    let ajax = new XMLHttpRequest();
-    let token = document.querySelector('meta[name="csrf-token"]')['content'];
-    ajax.upload.addEventListener("progress", progressFunction);
-    ajax.addEventListener("load", completeFunction);
-    ajax.open("POST", URl);
-    ajax.setRequestHeader('X-CSRF-TOKEN', token);
-    ajax.send(formData);
+    if (file.files[0]) {
+
+        formData.append("file", file.files[0]);
+        let ajax = new XMLHttpRequest();
+        let token = document.querySelector('meta[name="csrf-token"]')['content'];
+        ajax.upload.addEventListener("progress", progressFunction);
+        ajax.addEventListener("load", completeFunction);
+        ajax.open("POST", URl);
+        ajax.setRequestHeader('X-CSRF-TOKEN', token);
+        ajax.send(formData);
+    }
 }
 
 function completeHandlerLoadMany(event) {
@@ -199,14 +209,14 @@ function completeHandlerLoadMany(event) {
     let inputImg = document.createElement('INPUT');
     inputImg.hidden = true;
     inputImg.name = 'img_load_' + imgLoadCount;
-    inputImg.type = "text";
-    inputImg.value = test.pathFile;
+    inputImg.type = "file";
+    inputImg.file = test.pathFile;
 
     let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
         useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     svgElem.classList.add('add-advert__icon-delete');
     useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
-    svgElem.addEventListener('click', removeDivImgInfo);
+    svgElem.addEventListener('click', removeLoadImg);
     svgElem.dataset.name = test.pathFile;
 
     svgElem.appendChild(useElem);
@@ -221,6 +231,17 @@ function completeHandlerLoadMany(event) {
 let removeDivImgInfo = function removeDivImgInfo(data, item) {
     item.parentElement.style.background = 'none';
     item.parentElement.classList.remove('add-advert__item-not-line');
+    let file = item.parentElement.querySelector('input[type=file]');
+    if (file) {
+        file.value = '';
+    } else {
+        let text = item.parentElement.querySelector('input[type=text]');
+        if (text) {
+            text.value = '';
+
+        }
+    }
+
     item.parentElement.querySelector('.add-advert__icon-delete').remove();
 }
 
@@ -257,6 +278,7 @@ let completeHandlerOneImg = function completeHandlerOneImg(event) {
         useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     svgElem.classList.add('add-advert__icon-delete');
     useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
+
     svgElem.addEventListener('click', removeLoadImgInfo);
     svgElem.dataset.name = test.pathFile;
 
@@ -295,48 +317,53 @@ if (loadImgLogo != null) {
     loadImgLogo.addEventListener('input', handlerLoaderImgPC)
 }
 let removeDivFileInfo = function removeDivFileInfo(data, item) {
-    debugger;
-    item.parentElement.style.background = 'none';
-    item.parentElement.classList.remove('add-advert__item-not-line');
-    item.parentElement.querySelector('.add-advert__icon-delete').remove();
-}
-
-let removeLoadFile = function removeLoadFile(e) {
-    debugger;
-    let item = e.target;
-
-    if (item.classList.contains('information__file-icon-delete')) {
-        let name = item.dataset.name;
-        updateForm(urlLoadRemoveImg, {'name': name}, removeDivFileInfo, item)
+    let file = item.parentElement.parentElement.parentElement.querySelector('input[type=file]');
+    if (file) {
+        file.value = '';
     }
+    item.parentElement.remove();
 }
 
 let completeHandlerFile = function completeHandlerFile(event) {
     let test = JSON.parse(event.target.response);
-    let item = loadPercent.parentElement.parentElement.parentElement.querySelector('.information__file-item');
+    let list = loadPercent.parentElement.parentElement.parentElement.querySelector('.information__file-list');
+    let item = document.createElement('LI');
+    item.classList.add('information__file-item')
     let svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
         useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     svgElem.classList.add('information__file-icon-delete');
     useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/img/icons/sprite.svg#delete');
-    svgElem.addEventListener('click', removeLoadFile);
+
     svgElem.dataset.name = test.pathFile;
-    svgElem.append(useElem);
-    // console.log(svgElem.addEventListener);
-    // debugger;
-    item.append(svgElem);
+    svgElem.appendChild(useElem);
+    item.appendChild(svgElem);
     item.innerHTML += test.pathFile;
+    list.append(item);
+    list.addEventListener('click', removeLoadFile);
     loadPercent.classList.remove('add-advert__item-percent--show');
     let load = loadPercent.parentElement.querySelector('.add-advert__icon-load-animation');
     load.classList.remove('add-advert__icon-load-animation--show');
 }
-
+let removeLoadFile = function removeLoadFile(e) {
+    let item = e.target;
+    if (item.classList.contains('information__file-icon-delete')) {
+        let name = item.dataset.name;
+        updateForm(urlLoadRemoveImg, {'name': name}, removeDivFileInfo, item)
+    } else if( item.nodeName == 'USE'){
+        let item = item.parentElement;
+        let name = item.dataset.name;
+        updateForm(urlLoadRemoveImg, {'name': name}, removeDivFileInfo, item)
+    }
+}
 let handlerLoaderFile = function handlerLoaderFile(e) {
-    let parent = e.target.parentElement;
-    loadPercent = parent.querySelector('.add-advert__item-percent');
-    loadPercent.classList.add('add-advert__item-percent--show');
-    let load = parent.querySelector('.add-advert__icon-load-animation');
-    load.classList.add('add-advert__icon-load-animation--show');
-    uploadFile(e.target, progressHandlerLoadMany, completeHandlerFile, urlLoadImg)
+    if (e.target.files.length) {
+        let parent = e.target.parentElement;
+        loadPercent = parent.querySelector('.add-advert__item-percent');
+        loadPercent.classList.add('add-advert__item-percent--show');
+        let load = parent.querySelector('.add-advert__icon-load-animation');
+        load.classList.add('add-advert__icon-load-animation--show');
+        uploadFile(e.target, progressHandlerLoadMany, completeHandlerFile, urlLoadImg)
+    }
 }
 if (fileProfileAbout != null) {
     fileProfileAbout.addEventListener('input', handlerLoaderFile)
@@ -379,7 +406,7 @@ if (ajaxHedCatWrapper != null) {
 
 const handlerClickMoney = function handlerClickMoney(e) {
     let item = e.target;
-    
+
     if ((item.nodeName === "I" && item.classList.contains("prices__icon") && item.parentElement.classList.contains("prices__submit")) ||
         (item.nodeName === "BUTTON" && item.classList.contains("prices__submit"))) {
         if (item.nodeName === "BUTTON" && item.classList.contains("prices__submit")) {
@@ -698,7 +725,7 @@ let handlerRadioChange = function handlerRadioChange(e) {
     if (item.nodeName === "INPUT" && item.classList.contains('account__radio-input')) {
         let id = item.id;
         let account__params = document.querySelector('.account__params-show');
-        if(account__params!= null)account__params.classList.remove("account__params-show");
+        if (account__params != null) account__params.classList.remove("account__params-show");
         document.querySelector('.account__' + id).classList.add("account__params-show");
     }
 };
